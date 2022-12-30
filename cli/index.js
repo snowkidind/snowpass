@@ -69,7 +69,6 @@ const mainMenu = async () => {
   mainMenu()
 }
 
-
 const listItems = async () => {
   const items = await crypto.itemList()
   if (items.status !== 'ok') {

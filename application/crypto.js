@@ -12,6 +12,7 @@ module.exports = {
   },
 
   importPasswords: async (path) => {
+    // should test for proper format (e.g, file is a JSON array)
     if (fs.existsSync(path)) {
       const json = await fs.readFileSync(path)
       const plaintextbytes = new TextEncoder("utf-8").encode(json)
@@ -26,7 +27,11 @@ module.exports = {
   itemList: async () => {
     try {
       const store = await getDataStore()
-      return { status: "ok", data: Object.keys(store) }
+      const names = []
+      for (let i = 0; i < store.length; i++) {
+        names.push(store[i].name)
+      }
+      return { status: "ok", data: names }
     } catch (error) {
       return { status: error, error: "Application Error"}
     }
@@ -36,17 +41,13 @@ module.exports = {
   retrieveItem: async (retrieve) => {
     try {
       const store = await getDataStore()
-      let found
-      let i = 1
-      for (item in store) {
-        if (i === Number(retrieve)) {
-          found = store[item]
-          found['name'] = item
-          break
+      for (let i = 0; i < store.length; i++) {
+        const index = i + 1
+        if (index === Number(retrieve)) {
+          return { status: "ok", data: store[i] }
         }
-        i += 1
       }
-      return { status: "ok", data: found }
+      return { status: "ok", data: {} }
     } catch (error) {
       return { status: error, error: "Application Error" }
     }
@@ -55,15 +56,11 @@ module.exports = {
   searchItem: async (item) => {
     try {
       const store = await getDataStore()
-      let i = 1
       let found = []
-      for (const key in store) {
-        if (key.toLowerCase().includes(item.toLowerCase())) {
-          let thisFind = store[key]
-          thisFind['name'] = key
-          found.push(thisFind)
+      for (let i = 0; i < store.length; i++) {
+        if (store[i].name.toLowerCase().includes(item.toLowerCase())) {
+          found.push(store[i])
         }
-        i += 1
       }
       return { status: "ok", data: found }
     } catch (error) {
