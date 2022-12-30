@@ -1,0 +1,7 @@
+# this is a monolithic archive with several subprojects, 
+# but its better to keep it all under one repository
+node_modules
+.DS_Store
+.env
+notes
+data
