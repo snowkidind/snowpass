@@ -1,5 +1,5 @@
 const fs = require('fs')
-const axios = require('axios');
+const axios = require('axios')
 const FormData = require('form-data')
 
 module.exports = {
@@ -20,7 +20,6 @@ module.exports = {
       const queryString = 'groupId=' + encodePlus(groupId) + '&message=' + msg
       const resp = await axios.get(process.env.SIGNAL_SERVER + '/signal/sendMessageToGroup?' + queryString)
       if (resp.data.status === 'ok') {
-        if (resp.data.message !== 'Successfully sent message.') console.log(resp.data.message)
         return { status: 'ok' }
       }
     } catch (error) {
@@ -64,5 +63,5 @@ const encodePlus = (string) => {
   if (string.includes('+')) {
     e164 = string.replace('+', '%2B')
   }
-  return e164;
+  return e164
 }

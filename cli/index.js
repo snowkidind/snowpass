@@ -1,6 +1,7 @@
 const env = require('node-env-file')
 env(__dirname + '/../.env')
-const readline = require('node:readline');
+const speakeasy = require('speakeasy')
+const readline = require('node:readline')
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -9,8 +10,10 @@ const rl = readline.createInterface({
 const events = require('events')
 const emitter = new events.EventEmitter()
 
+const { file } = require('../utils')
 const { getAnswer, execute } = require('./common.js')
 const crypto = require('../application/crypto.js')
+const instaSignal = require('../application/instaSignal.js')
 
 const mainMenu = async () => {
 
@@ -18,6 +21,7 @@ const mainMenu = async () => {
   menu += "  s    Search\n"
   menu += "  r    Retrieve by index\n"
   menu += "  i    Import Passwords\n"
+  menu += "  2    Generate / Replace 2fa Key\n"
   menu += "  q     Exit\n\n"
   menu += "  Enter a command:\n "
 
@@ -59,8 +63,35 @@ const mainMenu = async () => {
     } else {
       console.log(item.data)
     }
-  }
+  } 
   
+  else if (query === "2") {
+
+    await execute(rl, "This will overwrite existing 2FA codes.", mainMenu)
+
+    const temp_secret = speakeasy.generateSecret()
+    await instaSignal.spinUp()
+    await instaSignal.sendMessage(temp_secret.base32)
+    await instaSignal.spinDown()
+    const contractEnv = __dirname + '/../.env'
+    const envFile = (await file.readFile(contractEnv)).split('\n')
+    let newFile = ''
+    for (let i = 0; i < envFile.length; i++) {
+      if (envFile[i].includes('TOTP_KEY')) {
+        newFile += 'TOTP_KEY=' + temp_secret.base32 + '\n'
+      } else {
+        newFile += envFile[i] + '\n'
+      }
+    }
+
+    await file.writeFile(contractEnv, newFile)
+    console.log('Env file was modified.')
+    console.log('The 2fa secret has been sent to signal, be sure to add it to authenticator and then delete the message.')
+    console.log('Be sure to restart the monitor application for the changes to take effect')
+    await getAnswer(rl, "Push enter for menu.", mainMenu)
+
+  }
+
   else if (query === "q") {
     console.log("Exit.")
     rl.close()
@@ -88,6 +119,9 @@ emitter.on('ready', function () {
   mainMenu()
 })
 
+const sendMessage = async (msg) => {
+  await signald.skills.sendMessage(process.env.LINKED_ACCOUNT, msg)
+}
 
   ; (async () => {
 

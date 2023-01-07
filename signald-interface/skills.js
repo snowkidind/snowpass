@@ -1,13 +1,9 @@
 // Access for the v2 functions
-'use strict';
+'use strict'
 
-const socketJs = require('./socket.js');
-const utils = require('./utils.js');
-const idRouter = require('./idRouter.js');
-
-// this is a temporary study in receipt structure
-// const file = require('../utils/file.js');
-// const receiptLog = __dirname + '/../../../log/receipts.log';
+const socketJs = require('./socket.js')
+const utils = require('./utils.js')
+const idRouter = require('./idRouter.js')
 
 module.exports = {
 
@@ -16,17 +12,17 @@ module.exports = {
    */
   listGroups: () => {
     return new Promise(async (resolve, reject) => {
-      const address = numbersToFormat([process.env.BOT_ACCOUNT]);
+      const address = numbersToFormat([process.env.BOT_ACCOUNT])
       writeSocket({
         "account": process.env.BOT_ACCOUNT,
         "address": address,
         "type": "list_groups",
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('listGroups', receipt);
-        resolve(receipt);
+        await saveReceipt('listGroups', receipt)
+        resolve(receipt)
       })
-    });
+    })
   },
 
   getIdentities: (phone) => {
@@ -36,10 +32,10 @@ module.exports = {
         "username": process.env.BOT_ACCOUNT,
         "recipientAddress": phone
       }, async function (receipt) {
-        await saveReceipt('getIdentities', receipt);
+        await saveReceipt('getIdentities', receipt)
         resolve(receipt)
       })
-    });
+    })
   },
 
   /**
@@ -47,7 +43,7 @@ module.exports = {
    */
   trustUser: (e164, safetyNumber) => {
     return new Promise(async (resolve, reject) => {
-      const phone = numberToFormat(e164);
+      const phone = numberToFormat(e164)
       writeSocket({
         "username": process.env.BOT_ACCOUNT,
         "type": "trust",
@@ -55,10 +51,10 @@ module.exports = {
         "recipientAddress": phone,
         "fingerprint": safetyNumber
       }, async function (receipt) {
-        await saveReceipt('trustUser', receipt);
+        await saveReceipt('trustUser', receipt)
         resolve(receipt)
       })
-    });
+    })
   },
 
   /**
@@ -66,7 +62,7 @@ module.exports = {
    */
   untrustUser: (e164, safetyNumber) => {
     return new Promise(async (resolve, reject) => {
-      const phone = numberToFormat(e164);
+      const phone = numberToFormat(e164)
       writeSocket({
         "username": process.env.BOT_ACCOUNT,
         "type": "trust",
@@ -74,10 +70,10 @@ module.exports = {
         "recipientAddress": phone,
         "fingerprint": safetyNumber
       }, async function (receipt) {
-        await saveReceipt('untrustUser', receipt);
+        await saveReceipt('untrustUser', receipt)
         resolve(receipt)
       })
-    });
+    })
   },
 
   /**
@@ -88,7 +84,7 @@ module.exports = {
    */
   createGroup: (groupTitle, numbers) => {
     return new Promise(async (resolve) => {
-      const members = numbersToFormat(numbers);
+      const members = numbersToFormat(numbers)
       writeSocket({
         "type": "create_group",
         "account": process.env.BOT_ACCOUNT,
@@ -97,7 +93,7 @@ module.exports = {
         "title": groupTitle,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('createGroup', receipt);
+        await saveReceipt('createGroup', receipt)
         if (receipt.error) {
           resolve({ status: "error", error: receipt.error.message })
         } else {
@@ -122,7 +118,7 @@ module.exports = {
         "title": newName,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('updateGroupName', receipt);
+        await saveReceipt('updateGroupName', receipt)
         resolve(receipt)
       })
     })
@@ -141,7 +137,7 @@ module.exports = {
         "name": botName,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('updateBotAvatar', receipt);
+        await saveReceipt('updateBotAvatar', receipt)
         resolve(receipt)
       })
     })
@@ -160,7 +156,7 @@ module.exports = {
         "groupID": groupId,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('updateGroupAvatar', receipt);
+        await saveReceipt('updateGroupAvatar', receipt)
         resolve(receipt)
       })
     })
@@ -175,7 +171,7 @@ module.exports = {
         "groupID": groupId,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('getGroup', receipt);
+        await saveReceipt('getGroup', receipt)
         resolve(receipt)
       })
     })
@@ -190,19 +186,18 @@ module.exports = {
       socketJs.initSocket()
         .then(async (result) => {
           if (result) {
-            console.log("Socket inited");
-            await socketJs.subscribe();
+            await socketJs.subscribe()
             resolve(true)
           }
         })
-    });
+    })
   },
 
   /**
    * Get a user profile
    */
   getUserProfile: (userNumber) => {
-    const number = numberToFormat(userNumber);
+    const number = numberToFormat(userNumber)
     return new Promise(async (resolve, reject) => {
       writeSocket({
         "type": "get_profile",
@@ -210,7 +205,7 @@ module.exports = {
         "account": process.env.BOT_ACCOUNT,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('getUserProfile', receipt);
+        await saveReceipt('getUserProfile', receipt)
         resolve(receipt)
       })
     })
@@ -228,7 +223,7 @@ module.exports = {
         "username": process.env.BOT_ACCOUNT,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('sendMessage', receipt);
+        await saveReceipt('sendMessage', receipt)
         resolve(receipt)
       })
     })
@@ -238,9 +233,7 @@ module.exports = {
    * Send a message to a group
    */
   sendMessageToGroup: (groupId, message) => {
-console.log('Message:',message)
     const msg = decodeURI(message)
-
     return new Promise(async (resolve, reject) => {
       writeSocket({
         "type": "send",
@@ -249,8 +242,7 @@ console.log('Message:',message)
         "username": process.env.BOT_ACCOUNT,
         "version": "v1"
       }, async function (receipt) {
-        console.log('omg')
-        await saveReceipt('sendMessageToGroup', receipt);
+        await saveReceipt('sendMessageToGroup', receipt)
         resolve(receipt)
       })
     })
@@ -269,7 +261,7 @@ console.log('Message:',message)
         "username": process.env.BOT_ACCOUNT,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('sendMessageToGroup', receipt);
+        await saveReceipt('sendMessageToGroup', receipt)
         resolve(receipt)
       })
     })
@@ -279,7 +271,7 @@ console.log('Message:',message)
    * Add a user to a group
    */
   addMemberToGroup: (members, groupId) => {
-    const users = numbersToFormat([members]);
+    const users = numbersToFormat([members])
     return new Promise(async (resolve) => {
       writeSocket({
         "type": "update_group",
@@ -289,9 +281,7 @@ console.log('Message:',message)
         "account": process.env.BOT_ACCOUNT,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('addMemberToGroup', receipt);
-        // if a user was already in the group this error is thrown, choosing to ignore
-        // {"id":"5pr84oen0gypqvjo6pmytn","type":"update_group","error":{},"error_type":"RequestProcessingError"}
+        await saveReceipt('addMemberToGroup', receipt)
         resolve(receipt)
       })
     })
@@ -301,7 +291,7 @@ console.log('Message:',message)
    * Remove a user from a group
    */
   removeUsersFromGroup: (members, groupId) => {
-    const users = numbersToFormat(members);
+    const users = numbersToFormat(members)
     return new Promise(async (resolve) => {
       writeSocket({
         "type": "update_group",
@@ -310,7 +300,7 @@ console.log('Message:',message)
         "account": process.env.BOT_ACCOUNT,
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('removeUsersFromGroup', receipt);
+        await saveReceipt('removeUsersFromGroup', receipt)
         resolve(receipt)
       })
     })
@@ -325,7 +315,7 @@ console.log('Message:',message)
         "type": "leave_group",
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('leaveGroup', receipt);
+        await saveReceipt('leaveGroup', receipt)
         resolve(receipt)
       })
     })
@@ -340,46 +330,46 @@ console.log('Message:',message)
         "updateAccessControl": { "link": "UNSATISFIABLE" },
         "version": "v1"
       }, async function (receipt) {
-        await saveReceipt('disableGroupLink', receipt);
+        await saveReceipt('disableGroupLink', receipt)
         resolve(receipt)
       })
     })
   },
 
   startUpdates: async () => {
-    await socketJs.subscribe();
+    await socketJs.subscribe()
   },
 
   stopUpdates: async () => {
-    await socketJs.unsubscribe();
+    await socketJs.unsubscribe()
   },
 
   directToSocket: (command) => {
     writeSocket(command, async function (receipt) {
-      await saveReceipt('directToSocket', receipt);
-      console.log(receipt)
-    });
+      await saveReceipt('directToSocket', receipt)
+      // console.log(receipt)
+    })
   }
 }
 
 function writeSocket(command, cb) {
   // console.log(command)
-  const id = utils.generateRandomID();
-  idRouter.add(id, cb);
-  command.id = id;
-  socketJs.writeSocket(command);
+  const id = utils.generateRandomID()
+  idRouter.add(id, cb)
+  command.id = id
+  socketJs.writeSocket(command)
 }
 
 function numbersToFormat(numbers) {
-  let format = [];
+  let format = []
   numbers.forEach((number) => {
     format.push({ number: number })
   })
-  return format;
+  return format
 }
 
 function numberToFormat(number) {
-  return { number: number };
+  return { number: number }
 }
 
 async function saveReceipt(caller, receipt) {
