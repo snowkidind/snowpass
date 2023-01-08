@@ -133,29 +133,29 @@ pico .env
 ```
 Be sure to set the appropriate things there:
 
-PBKDF2_ITERATIONS=deprecated
+> PBKDF2_ITERATIONS=deprecated
 
-ENCRYPTION_KEY=yoursupersecurekeyhere 
+> ENCRYPTION_KEY=yoursupersecurekeyhere 
 
 Make this a nice strong password like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created
 
-UNIX_SOCKET=/var/run/signald/signald.sock
+> UNIX_SOCKET=/var/run/signald/signald.sock
 
 This is the location of the signald socket, should not need to modify
 
-BOT_ACCOUNT=+BOT_PHONE_NUMBER
+> BOT_ACCOUNT=+BOT_PHONE_NUMBER
 
 This is the Bot account, that will be used to send messages
 
-LINKED_ACCOUNT=+YOUR_PHONE_NUMBER
+> LINKED_ACCOUNT=+YOUR_PHONE_NUMBER
 
 This is the number of your regular signal account
 
-BACKUP_EVERY=5
+> BACKUP_EVERY=5
 
 This is the time in minutes to auto backup, which triggers when data mods happen
 
-PASSWORD_LENGTH=18
+> PASSWORD_LENGTH=18
 
 The default length a password generated should be. Passwords are automatically assigned, but can be modified with custom passwords.
 
