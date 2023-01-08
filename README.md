@@ -173,7 +173,7 @@ its a JSON array of objects, each object has 4 parameters, as such
   ...
 ]
 ```
-Eventually, I will set up an importer tool but for now you can either add passwords manually, or make a JSON file like this to import all passwords at once. Once the import is completed, be sure to delete the JSON file.
+Eventually, I will set up an importer tool but for now you can either add passwords manually, or make a JSON file like this to import all passwords at once. There is a template file in the data directory. Once your initial import is completed, be sure to delete the JSON file.
 
 To import the file, run the command `node cli` from the snowpass directory. There you will find an interactive menu that helps with the actual import. The file's contents will be encrypted and saved to disk.
 
@@ -222,6 +222,7 @@ thats it should be up and running, that is _should_
 - documentation on how to get signald working on your box
 - documentation on how to operate the bot
 - automate initialization as much as possible
+- test initialization without import file
 
 ## NEXT STEPS
 - consider storing pid files to ensure a single process is running
