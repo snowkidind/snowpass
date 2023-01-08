@@ -11,10 +11,10 @@ The password file is encrypted using Argon2.
 # Making it work
 
 The steps involved in this are as follows
-- Get a box
+- Get a dedicated box
 - Get an alternate Twilio phone number
 - Install signald on the box and get it working
-- Captcha
+- 8&#*@^$*@ Captcha
 - Install the snowpass application
 - Install node modules
 - Configure the .env file
@@ -24,7 +24,7 @@ The steps involved in this are as follows
 
 ## Get a box
 
-Get a raspberry pi or similar ubuntu device rolling. You can test this without using a cloud instance, but be warned, there is a known issue synchronizing signal with anything on a digital ocean domain. With that in mind, the process here will be described to that spec.
+Get a raspberry pi or similar ubuntu device rolling. You can test this with using a cloud instance, but be warned, there is a known issue synchronizing signal with anything on a digital ocean domain. With that in mind, the process here will be described to that spec.
 
 ## Get an alternate Twilio phone number
 
@@ -74,7 +74,7 @@ This pops up a QR code you can scan with your phone. But in order to not link it
 - Install a fresh signal app on a second device, using the phone number from twilio. 
 - Scan the QR code from the fresh signal app to link the bot account.
 - Note that this method copies all of your contacts on your device to the signald application. 
-- when you are finished setting the bot account up, delete the signal app on the second device, and then close the twilio phone number, because its no longer useful. Note removing the account and app will require this linking process again from the ground up.
+- Later when you are finished setting the bot account up, delete the signal app on the second device, and then close the twilio phone number, because its no longer useful, but give yourself a couple days to observe it as needed. Note removing the account and app will require this linking process again from the ground up.
 
 2. Use the **captcha**. The captcha thing has many issues. Try using voice verify. See https://signald.org/articles/captcha/
 
@@ -223,6 +223,7 @@ thats it should be up and running, that is _should_
 - documentation on how to operate the bot
 - automate initialization as much as possible
 - test initialization without import file
+- test using a single phone number as both the bot and the recipient (doubt its possible)
 
 ## NEXT STEPS
 - consider storing pid files to ensure a single process is running
