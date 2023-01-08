@@ -1,15 +1,6 @@
-const events = require('./events.js')
-const idRouter = require('./idRouter.js')
-const receive = require('./receive.js')
-const skills = require('./skills.js')
-const socket = require('./socket.js')
-const utils = require('./utils.js')
-
-module.exports = {
-  events: events,
-  idRouter: idRouter,
-  receive: receive,
-  skills: skills,
-  socket: socket,
-  utils: utils
-}
+exports.events = require('./events.js')
+exports.idRouter = require('./idRouter.js')
+exports.receive = require('./receive.js')
+exports.skills = require('./skills.js')
+exports.socket = require('./socket.js')
+exports.utils = require('./utils.js')

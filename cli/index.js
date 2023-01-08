@@ -1,6 +1,5 @@
 const env = require('node-env-file')
 env(__dirname + '/../.env')
-const speakeasy = require('speakeasy')
 const readline = require('node:readline')
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,10 +9,8 @@ const rl = readline.createInterface({
 const events = require('events')
 const emitter = new events.EventEmitter()
 
-const { file } = require('../utils')
 const { getAnswer, execute } = require('./common.js')
-const crypto = require('../application/crypto.js')
-const instaSignal = require('../application/instaSignal.js')
+const skills = require('../application/pwSkills.js')
 
 const mainMenu = async () => {
 
@@ -32,11 +29,11 @@ const mainMenu = async () => {
   if (query === "i") {
     console.log('Import Passwords')
     const pwFile = await getAnswer(rl, "Enter full path to your password JSON file", mainMenu)
-    const exists = await crypto.dataStoreExists()
+    const exists = await skills.dataStoreExists()
     if (exists) {
       await execute(rl, "This will overwrite existing password store.", mainMenu)
     }
-    const result = await crypto.importPasswords(pwFile)
+    const result = await skills.importPasswords(pwFile)
     if (result.status !== 'ok') {
       console.log('Couldn\'t import passwords: ' + result.error)
     } else {
@@ -47,7 +44,7 @@ const mainMenu = async () => {
   else if (query === "r") {
     await listItems()
     const retrieve = await getAnswer(rl, "Enter the item id to retrieve:", mainMenu)
-    const item = await crypto.retrieveItem(retrieve)
+    const item = await skills.retrieveItem(retrieve)
     if (item.status !== 'ok') {
       console.log(item.error)
     } else {
@@ -57,40 +54,13 @@ const mainMenu = async () => {
 
   else if (query === "s") {
     const retrieve = await getAnswer(rl, "Enter the item to search for:", mainMenu)
-    const item = await crypto.searchItem(retrieve)
+    const item = await skills.searchItem(retrieve)
     if (item.status !== 'ok') {
       console.log(item.error)
     } else {
       console.log(item.data)
     }
   } 
-  
-  else if (query === "2") {
-
-    await execute(rl, "This will overwrite existing 2FA codes.", mainMenu)
-
-    const temp_secret = speakeasy.generateSecret()
-    await instaSignal.spinUp()
-    await instaSignal.sendMessage(temp_secret.base32)
-    await instaSignal.spinDown()
-    const contractEnv = __dirname + '/../.env'
-    const envFile = (await file.readFile(contractEnv)).split('\n')
-    let newFile = ''
-    for (let i = 0; i < envFile.length; i++) {
-      if (envFile[i].includes('TOTP_KEY')) {
-        newFile += 'TOTP_KEY=' + temp_secret.base32 + '\n'
-      } else {
-        newFile += envFile[i] + '\n'
-      }
-    }
-
-    await file.writeFile(contractEnv, newFile)
-    console.log('Env file was modified.')
-    console.log('The 2fa secret has been sent to signal, be sure to add it to authenticator and then delete the message.')
-    console.log('Be sure to restart the monitor application for the changes to take effect')
-    await getAnswer(rl, "Push enter for menu.", mainMenu)
-
-  }
 
   else if (query === "q") {
     console.log("Exit.")
@@ -101,7 +71,7 @@ const mainMenu = async () => {
 }
 
 const listItems = async () => {
-  const items = await crypto.itemList()
+  const items = await skills.itemList()
   if (items.status !== 'ok') {
     console.log(items.error)
   } else {

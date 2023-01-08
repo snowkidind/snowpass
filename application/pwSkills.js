@@ -9,6 +9,10 @@ const pbkdf2iterations = Number(process.env.PBKDF2_ITERATIONS)
 const encryptionKey = process.env.ENCRYPTION_KEY
 let pause = false
 
+/* 
+  Handle tasks involving accessing the password file. 
+*/
+
 module.exports = {
 
   isPaused: () => {
@@ -75,6 +79,22 @@ module.exports = {
       let found = []
       for (let i = 0; i < store.length; i++) {
         if (store[i].name.toLowerCase().includes(item.toLowerCase())) {
+          found.push(store[i])
+        }
+      }
+      return { status: "ok", data: found }
+    } catch (error) {
+      console.log(error)
+      return { status: error, error: "Application Error" }
+    }
+  },
+
+  searchItemExact: async (item) => {
+    try {
+      const store = await getDataStore()
+      let found = []
+      for (let i = 0; i < store.length; i++) {
+        if (store[i].name.toLowerCase() === item.toLowerCase()) {
           found.push(store[i])
         }
       }

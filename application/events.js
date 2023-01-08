@@ -1,16 +1,18 @@
 const signald = require('../signald-interface')
-const signalEvents = require('../signald-interface/events.js')
-const speakeasy = require('speakeasy')
-const crypto = require('./crypto.js')
+const { events, skills } = signald
+const pwSkills = require('./pwSkills.js')
 const commands = require('./commands.js')
 const { dateutils } = require('../utils/')
 const { timeFmtDb, dateNowBKK } = dateutils
 
-const sendMessage = async (msg) => {
-  await signald.skills.sendMessage(process.env.LINKED_ACCOUNT, msg)
-}
+/* 
+  Receives messages from the signal protocol by listening to 
+  events broadcasted by signald-interface
+  - By default all messages are considered to be requests for a password, 
+  - unless it has a preceeding / which means its a command.
+*/
 
-signalEvents.emitter.on('message', async (message) => {
+events.emitter.on('message', async (message) => {
   try {
     if (message.source.number !== process.env.LINKED_ACCOUNT) {
       console.log('An unknown number called: ' + message.source.number)
@@ -23,64 +25,39 @@ signalEvents.emitter.on('message', async (message) => {
     if (typeof message.dataMessage.body === 'undefined') return
     const query = message.dataMessage.body.split(' ')
     const q = query[0]
+
     if (q.startsWith('/')) {
       await commands.command(query)
-    } else {
-      // the strategy of totp here is to basically slow down a brute force message blast
-      if (process.env.USE_2FA === 'true') {
-        if (query.length < 2) {
-          await sendMessage('format: <company> <totp>')
-          return
-        }
-        // under normal operation the totp is expected as the second argument.
-        // otherwise 2fa may be required in some position other than the second
-        const verified = checkTotp(query[1])
-        if (!verified) {
-          await sendMessage('NOTICE: totp failed')
-          return
-        }
-      }
-      const item = await crypto.searchItem(q.toLowerCase())
-      if (item.status !== 'ok') {
-        console.log(item.error)
-      } else {
-        if (item.data.length === 1 || item.data[0].name === q) {
-          const message1 = item.data[0].name + '\n' + item.data[0].user + '\n' + item.data[0].note
-          const message2 = item.data[0].password
-          await sendMessage(message1)
-          await sendMessage(message2)
-          console.log(timeFmtDb(dateNowBKK()) + ' A password was served: ' + item.data[0].name + ' ' + message.source.number)
-        }
-        else {
-          let message1 = 'More than one result was found:\n'
-          for (let i = 0; i < item.data.length; i++) {
-            message1 += item.data[i].name + '\n'
-          }
-          if (item.data.length > 1) {
-            await sendMessage(message1)
-          } else {
-            await sendMessage('There were no matches for search: ' + q)
-          }
-        }
-      }
+      return
     }
-
+    const item = await pwSkills.searchItem(q.toLowerCase())
+    if (item.status !== 'ok') {
+      console.log(item.error)
+      return
+    } 
+    if (item.data.length === 0) {
+      await sendMessage('There were no matches for search: ' + q)
+      return
+    }
+    if (item.data.length === 1 || item.data[0].name === q) {
+      const message1 = item.data[0].name + '\n' + item.data[0].user + '\n' + item.data[0].note
+      const message2 = item.data[0].password
+      await sendMessage(message1)
+      await sendMessage(message2)
+      console.log(timeFmtDb(dateNowBKK()) + ' A password was served: ' + item.data[0].name + ' ' + message.source.number)
+      return
+    }
+    let message1 = 'More than one result was found:\n'
+    for (let i = 0; i < item.data.length; i++) {
+      message1 += item.data[i].name + '\n'
+    }
+    await sendMessage(message1)
   } catch (error) {
     console.log(error)
-    console.log('An error occurred receiving a message')
+    await sendMessage('An Application error occurred receiving a message')
   }
 })
 
-const checkTotp = (totp) => {
-  // TODO: Stop similar 2fa code from being used for 120 seconds
-  // TODO: Strategy to encrypt the two factor key
-  const token6 = String(totp).padStart(6, '0')
-  const verified = speakeasy.totp.verify({
-    secret: process.env.TOTP_KEY,
-    encoding: 'base32',
-    token: token6
-  })
-  return verified
+const sendMessage = async (msg) => {
+  await skills.sendMessage(process.env.LINKED_ACCOUNT, msg)
 }
-
-
