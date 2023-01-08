@@ -44,7 +44,7 @@ signalEvents.emitter.on('message', async (message) => {
       if (item.status !== 'ok') {
         console.log(item.error)
       } else {
-        if (item.data.length === 1) {
+        if (item.data.length === 1 || item.data[0].name === q) {
           const message1 = item.data[0].name + '\n' + item.data[0].user + '\n' + item.data[0].note
           const message2 = item.data[0].password
           await sendMessage(message1)

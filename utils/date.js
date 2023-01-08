@@ -29,6 +29,15 @@ module.exports = {
     return (Number(date.getFullYear())) + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
   },
 
+  _timeFmtDb: (e) => {
+    return module.exports.timeFmtDb(e).replace(/ /g, '_')
+  },
+
+  _toEpoch: (_timeFmt) => {
+    const time = _timeFmt.replace(/_/g, ' ')
+    return module.exports.epochFromDate(time)
+  },
+
   timeFmtYMD: (e) => {
     let epoch = e
     if (epoch.length === 10) epoch = e * 1000

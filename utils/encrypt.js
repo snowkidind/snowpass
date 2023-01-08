@@ -1,5 +1,18 @@
 
+const crypto = require('crypto')
+
 module.exports = {
+
+  passwordSafe: (length) => {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789123456789!@#$%^&*!@#$%^&*!@#$%^&*'
+    let password = ''
+    for (let i = 0; i < length; i++) {
+      const index = crypto.randomBytes(1)[0] % charset.length
+      password += charset.charAt(index)
+    }
+    return password
+  },
+
   encrypt: async (encryptionKey, plaintextbytes, pbkdf2iterations) => { 
     const passphrasebytes = new TextEncoder("utf-8").encode(encryptionKey)
     const pbkdf2salt = crypto.getRandomValues(new Uint8Array(8))
