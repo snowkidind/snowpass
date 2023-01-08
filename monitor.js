@@ -33,6 +33,7 @@ require('./application/events.js')
   signalEvents.emitter.on('socket_connected', async () => {
     console.log("NOTICE: the socket is connected")
     ready = true
+    await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
   })
   
   signalEvents.emitter.on('socket_disconnected', async () => {

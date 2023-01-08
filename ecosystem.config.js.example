@@ -1,0 +1,11 @@
+module.exports = {
+  apps: [
+    {
+      name: 'SNOWPASS',
+      script: '/home/youruser/snowpass/monitor.js',
+      instances: 1,
+      autorestart: true,
+      watch: false
+    }
+  ]
+};

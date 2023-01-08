@@ -84,7 +84,6 @@ events.emitter.on('data', function (data) {
   }
 
   else if (payload.type === 'unreadable_message') {
-    // TODO: add this to system notifications
     console.log("Bot received an unreadable message. This might mean the encryption ratchet is out of sync with a user.")
   }
 
