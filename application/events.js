@@ -14,26 +14,20 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
 events.emitter.on('message', async (message) => {
   try {
-
     const deviceInfo = await skills.getLinkedDevices()
     if (deviceInfo.data.devices.length > 2) {
       console.log('ERROR: There are too many devices connected to this account.')
       await sendMessage('ERROR: There are too many devices connected to this account.')
       process.exit()
     }
-
     if (message.source.number !== process.env.LINKED_ACCOUNT) {
       console.log('An unknown number called: ' + message.source.number)
       return
     }
-
-    // TODO Check devices that are connected and warn if strange devices exist
     // TODO Check that dissappearing messages are turned on and warn if they arent
-
     if (typeof message.dataMessage.body === 'undefined') return
     const query = message.dataMessage.body.split(' ')
     const q = query[0]
-
     if (q.startsWith('/')) {
       await commands.command(query)
       return

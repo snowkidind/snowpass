@@ -68,9 +68,8 @@ const newEntry = async (args) => {
     await sendMessage('/new <company> <userid> <note>')
     return
   }
-  const search = (await pwSkills.searchItem(args[1])).data
+  const search = (await pwSkills.searchItemExact(args[1])).data
   if (search.length > 0) {
-    // this will need a fix
     await sendMessage('Entry found for company with named: ' + search[0].name)
     return
   }
