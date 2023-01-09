@@ -8,6 +8,23 @@ const idRouter = require('./idRouter.js')
 module.exports = {
 
   /**
+   * Get linked devices
+   */
+  getLinkedDevices: () => {
+    return new Promise(async (resolve, reject) => {
+      writeSocket({
+        "account": process.env.BOT_ACCOUNT,
+        "type": "get_linked_devices",
+        "version": "v1"
+      }, async function (receipt) {
+        await saveReceipt('get_linked_devices', receipt)
+        resolve(receipt)
+      })
+    })
+  },
+
+
+  /**
    * List Groups known to signald account
    */
   listGroups: () => {

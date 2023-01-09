@@ -23,6 +23,15 @@ module.exports = {
     return fs.existsSync(dataStore)
   },
 
+  emptySet: async () => {
+    pause = true
+    const plaintextbytes = new TextEncoder("utf-8").encode('[]')
+    const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes, pbkdf2iterations)
+    await fs.writeFileSync(dataStore, cypherdata)
+    pause = false
+    return { status: 'ok', message: 'Empty Set' }
+  },
+
   importPasswords: async (path) => {
     try {
       // should test for proper format (e.g, file is a JSON array)

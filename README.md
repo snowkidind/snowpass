@@ -70,7 +70,7 @@ The next thing we must do is make sure the captcha and verify process works, and
 
 there are basically two ways to do this: 
 
-> 1. use the **link** command. Digital Ocean bots are pretty much banned so if you are spawning on DO, use the link command. Note This downloads all of your contacts to the device
+> 1. use the **link** command. Digital Ocean bots are pretty much banned so if you are spawning on DO, use the link command. Note This downloads all of your contacts to the device running the bot.
 ```
 signaldctl account link
 ```
@@ -121,6 +121,8 @@ Once you see messages from the bot in your regular account, verify the safety nu
 
 Once this two way communication is formed, the machine is ready to set up the snowpass application and start serving passwords.
 
+IMPORTANT: Finally set dissappearing messages to the message stream with the bot account to 30 seconds or 5 minutes. 
+
 ## Install the snowpass application
 ```
 git clone git@github.com:snowkidind/snowpass.git && cd ./snowpass
@@ -142,7 +144,7 @@ Be sure to set the appropriate things there:
 
 > ENCRYPTION_KEY=yoursupersecurekeyhere 
 
-Make this a nice strong password like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created
+Make this a nice strong password-like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created
 
 > UNIX_SOCKET=/var/run/signald/signald.sock
 
@@ -160,9 +162,21 @@ This is the number of your regular signal account
 
 This is the time in minutes to auto backup, which triggers when data mods happen
 
+> BACKUP_CRON=24
+
+Time in hours to run a backup regardless of whether or not mods happened
+
 > PASSWORD_LENGTH=18
 
 The default length a password generated should be. Passwords are automatically assigned, but can be modified with custom passwords.
+
+> CHECK_IN_MIN=1
+
+to use the remote check in feature, enter the time in minutes to check in to external url if provided
+
+> CHECK_IN_URL=http://123.456.789.12/watch/checkin
+
+url for external check in - make sure to comment it out if not using
 
 ## Import your password file
 The password format is pretty simple: 
@@ -220,18 +234,37 @@ thats it should be up and running, that is _should_
 
 ## TODO's
 - redo encryption algorithm to use Argon2
-- Check devices that are connected and warn if strange devices exist
-- Check that dissappearing messages are turned on and warn if they arent
-- process job that backs up the data at interval
-- url to call for checking in
-- documentation on how to get signald working on your box
-- documentation on how to operate the bot
-- automate initialization as much as possible
-- test initialization without import file
-- test using a single phone number as both the bot and the recipient (doubt its possible)
+- keep appropriate backups
 
 ## NEXT STEPS
-- consider storing pid files to ensure a single process is running
+- store pid files to ensure a single process is running
 - look into applying the signal protocol on c for potential embedded approach
+- Check that dissappearing messages are turned on and warn if they arent (signald feature req)
 
+# Operating the bot
 
+If the bot is properly configured, you should be able to do almost everything through the signal interface. Just hit / for the menu:
+
+Create a new entry, with an auto assigned password - this will generate a new entry with the specified information. The program will assign a new password for it and return the password. You can then copy the password from signal and update the password on the website with it.
+> /new <company> <userid> <note>
+
+List entries - This displays a list of all the entries by name. For details about an entry just send a signal message with the name of the entry
+> /ls
+
+Append note information for specified entry - This adds a line to the note field of a given entry, you can add several notes to a entry.
+> /note <company> <note>
+
+Clear note information for specified company - this removes all notes associated with an entry. 
+> /noteclear <company>
+
+Change item to user defined password - If you are not satisfied with the password given, or wish to assign your own password, this allows for that functionality. It overwrites the currently assigned password.
+> /change <company> <newPassword>
+
+Update a company with a new auto assigned password - When it is time to update passwords, this will replace the old password with a newly generated one.
+> /update <company>
+
+Remove a company from password tracking entirely - This deletes an entry. Note theres no undo here.
+> /rm <company> <password>
+
+Create a Argon2 encrypted backup copy of the password data - This forces a backup. Note that backups are generated upon actions, but not for every action. Backups are made every process.env.BACKUP_EVERY minutes. This can be set in .env
+> /backup <company>

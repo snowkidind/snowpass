@@ -54,6 +54,11 @@ events.emitter.on('data', function (data) {
     events.emitMessage('set_profile', payload.data)
   }
 
+  else if (payload.type === 'get_linked_devices') {
+    // events.emitMessage('get_linked_devices', payload.data)
+    receipt(payload)
+  }
+
   else if (payload.type === 'identities') {
     events.emitMessage('identities', payload.data)
   }

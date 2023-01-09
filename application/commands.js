@@ -11,6 +11,10 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
 // /note <company> <note>
 const note = async (args) => {
+  if (args.length < 2) {
+    await sendMessage('/note <company> <note>')
+    return
+  }
   const search = (await pwSkills.searchItem(args[1])).data
   if (search.length > 1) {
     let names = ''
@@ -36,6 +40,10 @@ const note = async (args) => {
 
 // /noteclear <company>
 const noteClear = async (args) => { 
+  if (args.length < 2) {
+    await sendMessage('/noteclear <company>')
+    return
+  }
   const search = (await pwSkills.searchItem(args[1])).data
   if (search.length > 1) {
     let names = ''
@@ -56,6 +64,10 @@ const noteClear = async (args) => {
 // Password will be auto assigned and returned via signal
 // /new <company> <userid> <note>
 const newEntry = async (args) => {
+  if (args.length < 3) {
+    await sendMessage('/new <company> <userid> <note>')
+    return
+  }
   const search = (await pwSkills.searchItem(args[1])).data
   if (search.length > 0) {
     // this will need a fix
@@ -87,6 +99,10 @@ const ls = async () => {
 
 // /change <company> <newPassword> 
 const changePw = async (args) => { 
+  if (args.length < 3) {
+    await sendMessage('/change <company> <newPassword> ')
+    return
+  }
   const search = (await pwSkills.searchItemExact(args[1])).data
   if (search.length > 1) {
     let names = ''
@@ -107,6 +123,10 @@ const changePw = async (args) => {
 // Update a company with a new auto assigned password
 // /update <company>
 const updatePw = async (args) => { 
+  if (args.length < 2) {
+    await sendMessage('/update <company>')
+    return
+  }
   const search = (await pwSkills.searchItemExact(args[1])).data
   if (search.length > 1) {
     let names = ''
@@ -127,6 +147,10 @@ const updatePw = async (args) => {
 
 // /rm <company> <password> Remove a company from password tracking entirely
 const remove = async (args) => { 
+  if (args.length < 3) {
+    await sendMessage('/rm <company> <password>')
+    return
+  }
   const rm = await pwSkills.deleteRecord(args[1], args[2])
   if (!rm) {
     await sendMessage('Entry was not found: ' + args[1] + ' with password: ' + args[2])
@@ -170,7 +194,7 @@ const menu = () => {
   acc += '/rm <company> <password>\n'  
   acc += '\n'
   acc += 'Create a Argon2 encrypted backup copy of the password data\n'
-  acc += '/backup <company>\n'
+  acc += '/backup\n'
   return acc
 }
 

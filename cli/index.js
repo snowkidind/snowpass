@@ -16,6 +16,7 @@ const mainMenu = async () => {
 
   let menu = "  ####### Main Menu: #######\n"
   menu += "  i    Import Passwords\n"
+  menu += "  e    Initialize with no passwords\n"
   menu += "  q     Exit\n\n"
   menu += "  Enter a command:\n "
 
@@ -37,6 +38,20 @@ const mainMenu = async () => {
     } else {
       console.log(result.message)
     }  
+  }
+
+  if (query === "e") {
+    console.log('Initialize with no passwords')
+    const exists = await skills.dataStoreExists()
+    if (exists) {
+      await execute(rl, "This will overwrite existing password store.", mainMenu)
+    }
+    const result = await skills.emptySet()
+    if (result.status !== 'ok') {
+      console.log('Couldn\'t import passwords: ' + result.error)
+    } else {
+      console.log(result.message)
+    }
   }
 
   else if (query === "q") {
