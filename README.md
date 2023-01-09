@@ -12,9 +12,9 @@ The password file is encrypted using Argon2.
 
 The steps involved in this are as follows
 - Get a dedicated box
-- Get an alternate Twilio phone number
+- Get an alternate Twilio phone number (Optional)
 - Install signald on the box and get it working
-- 8&#*@^$*@ Captcha
+- The godforsaken captcha
 - Install the snowpass application
 - Install node modules
 - Configure the .env file
@@ -28,9 +28,13 @@ Get a raspberry pi or similar ubuntu device rolling. You can test this with usin
 
 ## Get an alternate Twilio phone number
 
-It is ideal to have a second number running your password bot. Mostly, you need this number to get it up and running. To connect with the signal protocol, you must have an active phone number, but its not ideal to have your own phone number controlling your password messages. You can pretty much register the bot on a new phone number and then cancel the service for that number once you get things running, but you will need to reconfigure the bot down the road should there be a major upgrade to signal, etc. The issue at hand however, is that when configuring Twilio numbers, signal does not allow SMS messages to short code numbers, (or something to this nature) so in order to facilitate twilio verification for signal, you will need to install a script that forwards calls to your normal phone line. The code for the script is in the resources directory, in this repository, called callForward.js. 
+There are several ways to get a signal bot up and rolling, this strategy seemed to be pretty reliable for deploying on VPS's, but be warned, that THIS SOFTWARE IS INTENDED TO BE SELF CUSTODIED FROM A DEVICE RUNNING FROM YOUR HOUSE. Getting a Twilio number is one option, other options for this are slack, (might be easier with slack) or perhaps even using your grandmothers phone line to initialize the bot.
 
-Here are the instructions from the twilio site:
+It is ideal to have a second number running your password bot. Mostly, you need this number to get the bot up and running. To connect with the signal protocol, you must have an active phone number, but it doesnt work (or at least its not tested) to have your own regular use signal account controlling your password messages. You can register the bot on a new phone number and then cancel the number once you get things running, but down the road you might need to reconfigure the bot should there be a major upgrade to signal, etc. 
+
+The issue at hand however, is that when configuring Twilio numbers, signal does not allow SMS messages to short code numbers, (or something to this nature) so in order to facilitate twilio verification for signal, you will need to install a script that forwards calls to your normal phone line. The code for the script is in this repository, see resources/callForward.js. 
+
+Here are the instructions to set up call forwarding from the twilio site:
 ```
     Access the Functions (Classic) page in Console.
     Click Create a Function, or the blue plus + sign button.
@@ -41,7 +45,7 @@ Here are the instructions from the twilio site:
     Configure this Function on your Twilio number by following the steps here: Configuring phone numbers to receive calls or SMS messages.
 ```
 
-Do not proceed until you are able to receive a phone call through the twilio interface. This will greatly improve the experience going forward. (or proceed weary-eyed)
+Do not proceed until you are able to receive a phone call through the twilio interface. This will greatly improve the experience going forward. (or proceed weary-eyed, ymmv)
 
 ## Install signald on the box and get it working
 Instructions to install signald are at https://signald.org/articles/install/debian/
@@ -65,7 +69,8 @@ Ensure that youruser is part of the signald group in order to read and write to 
 The next thing we must do is make sure the captcha and verify process works, and if you configured your twilio account this might go smoother. 
 
 there are basically two ways to do this: 
-1. use the **link** command. Digital Ocean bots are pretty much banned so if you are spawning on DO, use the link command. Note This downloads all of your contacts to the device
+
+> 1. use the **link** command. Digital Ocean bots are pretty much banned so if you are spawning on DO, use the link command. Note This downloads all of your contacts to the device
 ```
 signaldctl account link
 ```
@@ -76,7 +81,7 @@ This pops up a QR code you can scan with your phone. But in order to not link it
 - Note that this method copies all of your contacts on your device to the signald application. 
 - Later when you are finished setting the bot account up, delete the signal app on the second device, and then close the twilio phone number, because its no longer useful, but give yourself a couple days to observe it as needed. Note removing the account and app will require this linking process again from the ground up.
 
-2. Use the **captcha**. The captcha thing has many issues. Try using voice verify. See https://signald.org/articles/captcha/
+> 2. Use the **captcha**. The captcha thing has many issues. Try using voice verify. See https://signald.org/articles/captcha/
 
 Getting the code: 
 1. Go here: https://signalcaptchas.org/registration/generate.html
