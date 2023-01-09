@@ -4,7 +4,6 @@ const axios = require('axios')
 
 let ready = false // ready state for socket listener
 const signal = require('./signald-interface')
-const signalEvents = require('./signald-interface/events.js')
 const pwSkills = require('./application/pwSkills.js')
 require('./application/events.js')
 
@@ -64,13 +63,13 @@ require('./application/events.js')
     }
   }
 
-  signalEvents.emitter.on('socket_connected', async () => {
+  signal.signalEvents.emitter.on('socket_connected', async () => {
     console.log("NOTICE: the socket is connected")
     ready = true
     await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
   })
   
-  signalEvents.emitter.on('socket_disconnected', async () => {
+  signal.signalEvents.emitter.on('socket_disconnected', async () => {
     console.log("NOTICE: the socket is disconnected")
     ready = false
     setTimeout(() => { watchSocket() }, 5000)
