@@ -170,6 +170,10 @@ module.exports = {
 
   manualBackup: async () => {
     return await forceBackup()
+  },
+
+  _backupSchedule: async () => {
+    await backupSchedule()
   }
 }
 
@@ -234,6 +238,68 @@ const forceBackup = async () => {
     console.log(error)
     pause = false
     return false
+  }
+}
+
+// for previous months there should be only one backup per month
+// for the current day, allow all backups, cleaning up previous
+// for the past 30 days there should be one backup per day
+const backupSchedule = async () => {
+  const twentyFourH = 24 * 60 * 60 * 1000
+  const thirtyD = twentyFourH * 30
+  const plus30d = []
+  const plus24h = []
+  const today = []
+  const now = dateNowBKK()
+  const dir = await fs.readdirSync(dataStoreDir)
+  for (let i = 0; i < dir.length; i++) {
+    if (dir[i].includes('.enc.bak')) {
+      const thisDate = _toEpoch(dir[i].replace('.enc.bak', ''))
+      const diff = now - thisDate
+      if (diff < twentyFourH) {
+        today.push(dir[i])
+      } else if (diff < thirtyD) {
+        plus24h.push(dir[i])
+      } else {
+        plus30d.push(dir[i])
+      }
+    }
+  }
+  let days = []
+  let months = []
+  for (let i = 0; i < 30; i++) {
+    days.push([])
+    months.push([])
+  }
+  // Remove redundant daily backups
+  for (let i = 0; i < plus24h.length; i++) {
+    const thisDate = timeFmtDb(_toEpoch(plus24h[i].replace('.enc.bak', '')))
+    const day = Number(thisDate.substr(8, 2))
+    days[day].push(plus24h[i])
+  }
+  for (let i = 0; i < days.length; i++) {
+    if (days[i].length > 1) {
+      const cleanup = days[i]
+      for (let j = 1; j < cleanup.length; j++) {
+        await fs.rmSync(__dirname + '/../data/' + cleanup[j])
+        console.log(timeFmtDb(dateNowBKK()) + ' Removed redundant backup file: ' + __dirname + '/../data/' + cleanup[j])
+      }
+    }
+  }
+  // remove redundant monthly backups
+  for (let i = 0; i < plus30d.length; i++) {
+    const thisDate = timeFmtDb(_toEpoch(plus30d[i].replace('.enc.bak', '')))
+    const month = Number(thisDate.substr(5, 2))
+    months[month].push(plus30d[i])
+  }
+  for (let i = 0; i < months.length; i++) {
+    if (months[i].length > 1) {
+      const cleanup = months[i]
+      for (let j = 1; j < cleanup.length; j++) {
+        await fs.rmSync(__dirname + '/../data/' + cleanup[j])
+        console.log(timeFmtDb(dateNowBKK()) + ' Removed redundant backup file: ' + __dirname + '/../data/' + cleanup[j])
+      }
+    }
   }
 }
 
