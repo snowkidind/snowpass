@@ -22,7 +22,6 @@ module.exports = {
   },
 
   encrypt: async (encryptionKey, plaintextbytes) => {
-    const saltSeed = crypto.getRandomValues(new Uint8Array(8)).buffer
     const passphrasekeybytes = await argon2.hash(encryptionKey, { hashLength: 48, saltLength: 8 })
     const [_, id, version, settings, salt, hash] = passphrasekeybytes.split('$')
     const argon2bytes = Buffer.from(hash, 'base64')
