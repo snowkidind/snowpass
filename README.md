@@ -230,10 +230,6 @@ thats it should be up and running, that is _should_
 
 # SOFTWARE IS AS IS AND COMES WITH ZERO WARRANTIES ESPECIALLY IF YOU GET HACKED AND LOSE YOUR STUFF - I AM NOT IN ANY WAY RESPONSIBLE NOR HAVE ANY LEGAL OBLIGATIONS.
 
-## TODO's
-- redo encryption algorithm to use Argon2
-- keep appropriate backups
-
 ## NEXT STEPS
 - store pid files to ensure a single process is running
 - look into applying the signal protocol on c for potential embedded approach

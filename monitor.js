@@ -25,6 +25,12 @@ require('./application/events.js')
   }
   backup()
 
+  const cleanupBackups = async () => {
+    setTimeout(backup, 24 * 60 * 60 * 1000) // every day clean unnecessary backup files.
+    await pwSkills._backupSchedule()
+  }
+  cleanupBackups()
+
   // Setup for remote monitoring. You need some service/other host to receive these requests to detect server down condition
   const checkIn = async () => {
     if (typeof process.env.CHECK_IN_URL !== 'undefined') {
