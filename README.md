@@ -140,11 +140,9 @@ pico .env
 ```
 Be sure to set the appropriate things there:
 
-> PBKDF2_ITERATIONS=deprecated
-
 > ENCRYPTION_KEY=yoursupersecurekeyhere 
 
-Make this a nice strong password-like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created
+Make this a nice strong password-like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created. This will be hashed with Argon2 and then used as the key to your data file, which is encrypted with AES-CBC
 
 > UNIX_SOCKET=/var/run/signald/signald.sock
 

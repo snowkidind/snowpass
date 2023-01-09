@@ -5,7 +5,6 @@ const { dateNowBKK, timeFmtDb, _timeFmtDb, _toEpoch } = dateutils
 
 const dataStoreDir = __dirname + '/../data/'
 const dataStore = __dirname + '/../data/data.enc'
-const pbkdf2iterations = Number(process.env.PBKDF2_ITERATIONS)
 const encryptionKey = process.env.ENCRYPTION_KEY
 let pause = false
 
@@ -26,7 +25,7 @@ module.exports = {
   emptySet: async () => {
     pause = true
     const plaintextbytes = new TextEncoder("utf-8").encode('[]')
-    const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes, pbkdf2iterations)
+    const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes)
     await fs.writeFileSync(dataStore, cypherdata)
     pause = false
     return { status: 'ok', message: 'Empty Set' }
@@ -39,7 +38,7 @@ module.exports = {
       if (fs.existsSync(path)) {
         const json = await fs.readFileSync(path)
         const plaintextbytes = new TextEncoder("utf-8").encode(json)
-        const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes, pbkdf2iterations)
+        const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes)
         await fs.writeFileSync(dataStore, cypherdata)
         pause = false
         return { status: 'ok', message: 'Passwords imported successfully' }
@@ -191,7 +190,7 @@ const writeDataStore = async (json) => {
     await backupDataStore()
     pause = true
     const plaintextbytes = new TextEncoder("utf-8").encode(JSON.stringify(json, null, 4))
-    const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes, pbkdf2iterations)
+    const cypherdata = await encrypt.encrypt(encryptionKey, plaintextbytes)
     await fs.writeFileSync(dataStore, cypherdata)
     pause = false
   } catch (error) {
@@ -240,6 +239,6 @@ const forceBackup = async () => {
 
 const getDataStore = async () => {
   const rawEnc = await fs.readFileSync(dataStore)
-  const decrypted = await encrypt.decrypt(encryptionKey, rawEnc, pbkdf2iterations)
+  const decrypted = await encrypt.decrypt(encryptionKey, rawEnc)
   return JSON.parse(decrypted)
 }
