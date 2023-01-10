@@ -33,8 +33,9 @@ const { timeFmtDb, dateNowBKK } = dateutils
     process.exit(1)
   }
 
+  // 10 second delay to allow signald + java to get started (should be 10 * 1000)
   const sleep = (m) => { return new Promise(r => setTimeout(r, m)) }
-  await sleep(10000) // allow systemd to get caught up (should be 10 * 1000)
+  await sleep(10000) 
 
   const backup = async () => {
     setTimeout(backup, process.env.BACKUP_CRON * 60 * 60 * 1000)
@@ -48,7 +49,8 @@ const { timeFmtDb, dateNowBKK } = dateutils
   }
   cleanupBackups()
 
-  // Setup for remote monitoring. You need some service/other host to receive these requests to detect server down condition
+  // Setup for remote monitoring. You need some service/other host to receive these 
+  // requests to detect server down condition
   const checkIn = async () => {
     if (typeof process.env.CHECK_IN_URL !== 'undefined') {
       setTimeout(backup, process.env.CHECK_IN_MIN * 60 * 1000)
@@ -62,6 +64,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
   }
   checkIn()
 
+  // start the connection with the signald interface
   const initializeSocket = async () => {
     if (!ready) {
       signal.socket.abortConnection()
