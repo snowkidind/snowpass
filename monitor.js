@@ -1,6 +1,7 @@
 const env = require('node-env-file')
 env(__dirname + '/.env')
 const axios = require('axios')
+const fs = require('fs')
 
 let ready = false // ready state for socket listener
 const signal = require('./signald-interface')
@@ -8,11 +9,27 @@ const signalEvents = require('./signald-interface/events.js')
 const pwSkills = require('./application/pwSkills.js')
 require('./application/events.js')
 
+const { dateutils } = require('./utils/')
+const { timeFmtDb, dateNowBKK } = dateutils
+
 ;( async () => {
+
+  // dont run if another process is currently running (protects the db file from unscrupulous double writes)
+  const procDir = '/proc'
+  const procStore = __dirname + '/data/proc'
+  if (fs.existsSync(procStore)) {
+    const proc = await fs.readFileSync(procStore)
+    if (fs.existsSync(procDir + '/' + proc)) {
+      console.log(timeFmtDb(dateNowBKK()) + ' Error: Only one process may run at a time! Pid: ' + proc + ' is still running. Exiting...')
+      process.exit(1)
+    }
+  }
+  await fs.writeFileSync(procStore, String(process.pid))
+
 
   // dont run if the password file is not initialized
   if (! await pwSkills.dataStoreExists()) {
-    console.log('Could not find a data store. Please run the command \"node cli\" from the application directory to continue')
+    console.log(timeFmtDb(dateNowBKK()) + ' Could not find a data store. Please run the command \"node cli\" from the application directory to continue')
     process.exit(1)
   }
 
@@ -57,7 +74,7 @@ require('./application/events.js')
   }
   
   const watchSocket = () => {
-    console.log('NOTICE: Watching for socket initalization')
+    console.log(timeFmtDb(dateNowBKK()) + ' NOTICE: Watching for socket initalization')
     if (!ready) {
       setTimeout(() => { watchSocket() }, 5000)
       initializeSocket()
@@ -65,13 +82,13 @@ require('./application/events.js')
   }
 
   signalEvents.emitter.on('socket_connected', async () => {
-    console.log("NOTICE: the socket is connected")
+    console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is connected. pid: " + process.pid)
     ready = true
     await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
   })
   
   signalEvents.emitter.on('socket_disconnected', async () => {
-    console.log("NOTICE: the socket is disconnected")
+    console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is disconnected")
     ready = false
     setTimeout(() => { watchSocket() }, 5000)
   })
