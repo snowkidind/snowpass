@@ -159,6 +159,21 @@ const remove = async (args) => {
   }
 }
 
+
+// /enc <prefix> Set the in memory prefix for encryption
+const enc = async (args) => {
+  if (args.length < 2) {
+    await sendMessage('/enc <prefix>')
+    return
+  }
+  if (process.env.USE_ENCRYPTION_PREFIX === 'true') {
+    process.env.ENC_PREFIX = args[1]
+    await sendMessage('Encryption key prefix was set')
+  } else {
+    await sendMessage('The application is not configured to use an encryption key prefix')
+  }
+}
+
 // /backup
 const backup = async () => {
   // this is a failsafe for the backup cronjob, in order to allow forcing of the backup.
@@ -194,6 +209,9 @@ const menu = () => {
   acc += '\n'
   acc += 'Create a Argon2 encrypted backup copy of the password data\n'
   acc += '/backup\n'
+  acc += '\n'
+  acc += 'Set the encryption key prefix\n'
+  acc += '/enc <key>\n'
   return acc
 }
 
@@ -212,8 +230,13 @@ module.exports = {
     else if (cmd === '/update') await updatePw(cmdArgs)
     else if (cmd === '/rm') await remove(cmdArgs)
     else if (cmd === '/backup') await backup()
+    else if (cmd === '/enc') await enc(cmdArgs)
     else await sendMessage(menu())
-    console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: ' + cmdArgs.join(' '))
+    if (cmd !== '/enc') {
+      console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: ' + cmdArgs.join(' '))
+    } else {
+      console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: /enc *****')
+    }
   }
 }
 

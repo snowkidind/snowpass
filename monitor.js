@@ -26,7 +26,6 @@ const { timeFmtDb, dateNowBKK } = dateutils
   }
   await fs.writeFileSync(procStore, String(process.pid))
 
-
   // dont run if the password file is not initialized
   if (! await pwSkills.dataStoreExists()) {
     console.log(timeFmtDb(dateNowBKK()) + ' Could not find a data store. Please run the command \"node cli\" from the application directory to continue')
@@ -37,12 +36,12 @@ const { timeFmtDb, dateNowBKK } = dateutils
   const sleep = (m) => { return new Promise(r => setTimeout(r, m)) }
   await sleep(10000) 
 
+  // handle backups
   const backup = async () => {
     setTimeout(backup, process.env.BACKUP_CRON * 60 * 60 * 1000)
     await pwSkills.manualBackup()
   }
   backup()
-
   const cleanupBackups = async () => {
     setTimeout(backup, 24 * 60 * 60 * 1000) // every day clean unnecessary backup files.
     await pwSkills._backupSchedule()
@@ -75,7 +74,6 @@ const { timeFmtDb, dateNowBKK } = dateutils
       }
     }
   }
-  
   const watchSocket = () => {
     console.log(timeFmtDb(dateNowBKK()) + ' NOTICE: Watching for socket initalization')
     if (!ready) {
@@ -83,18 +81,18 @@ const { timeFmtDb, dateNowBKK } = dateutils
       initializeSocket()
     }
   }
-
   signalEvents.emitter.on('socket_connected', async () => {
     console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is connected. pid: " + process.pid)
     ready = true
     await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
+    if (process.env.USE_ENCRYPTION_PREFIX === 'true') {
+      await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
+    }
   })
-  
   signalEvents.emitter.on('socket_disconnected', async () => {
     console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is disconnected")
     ready = false
     setTimeout(() => { watchSocket() }, 5000)
   })
-
   initializeSocket()
 })()

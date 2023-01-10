@@ -28,6 +28,12 @@ events.emitter.on('message', async (message) => {
     if (typeof message.dataMessage.body === 'undefined') return
     const query = message.dataMessage.body.split(' ')
     const q = query[0]
+    if (process.env.USE_ENCRYPTION_PREFIX === 'true' && 
+       typeof process.env.ENC_PREFIX === 'undefined' &&
+       q !== '/enc') {
+      await sendMessage('ERROR: Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
+      return
+    }
     if (q.startsWith('/')) {
       await commands.command(query)
       return

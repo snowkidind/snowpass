@@ -144,6 +144,10 @@ Be sure to set the appropriate things there:
 
 Make this a nice strong password-like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created. This will be hashed with Argon2 and then used as the key to your data file, which is encrypted with AES-CBC
 
+> USE_ENCRYPTION_PREFIX=true
+
+This is a prefix to add to your encryption key in order to make your application more secure. Since the encryption key above is stored in plain text, The prefix, which is added through the signal app will only be stored in memory. The combination of these two values will comprise the complete encryption key.
+
 > UNIX_SOCKET=/var/run/signald/signald.sock
 
 This is the location of the signald socket, should not need to modify

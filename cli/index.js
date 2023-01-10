@@ -15,6 +15,7 @@ const skills = require('../application/pwSkills.js')
 const mainMenu = async () => {
 
   let menu = "  ####### Main Menu: #######\n"
+  menu += "  k    Set encryption key prefix\n"
   menu += "  i    Import Passwords\n"
   menu += "  e    Initialize with no passwords\n"
   menu += "  q     Exit\n\n"
@@ -23,6 +24,22 @@ const mainMenu = async () => {
   const answer = await getAnswer(rl, menu, mainMenu)
   const args = answer.split(' ')
   const query = args[0]
+
+  if (query === "k") {
+    console.log('Set encryption key prefix')
+    if (typeof process.env.ENCRYPTION_KEY === 'undefined' || process.env.ENCRYPTION_KEY === '') {
+      console.log('The encryption key is not configured in .env ')
+      process.exit(1)
+    }
+    else if (process.env.USE_ENCRYPTION_PREFIX !== 'true') {
+      console.log('The application is not configured to use an encryption key prefix, to remedy this, set USE_ENCRYPTION_PREFIX=true in .env')
+      process.exit(1)
+    } else {
+      const prefix = await getAnswer(rl, "Set the encryption key prefix:", mainMenu)
+      process.env.ENC_PREFIX = prefix
+      console.log('Prefix was set. This will stay in memory until the program closes. To make permanent initialize the data store.')
+    }
+  }
 
   if (query === "i") {
     console.log('Import Passwords')
