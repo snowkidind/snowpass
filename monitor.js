@@ -34,7 +34,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
   }
 
   const sleep = (m) => { return new Promise(r => setTimeout(r, m)) }
-  await sleep(1000) // allow systemd to get caught up (should be 10 * 1000)
+  await sleep(10000) // allow systemd to get caught up (should be 10 * 1000)
 
   const backup = async () => {
     setTimeout(backup, process.env.BACKUP_CRON * 60 * 60 * 1000)
