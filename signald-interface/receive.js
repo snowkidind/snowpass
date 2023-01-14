@@ -1,9 +1,9 @@
 const events = require('./events.js')
 const idRouter = require('./idRouter.js')
 
-/**
- * Receive and parse signald comms
- */
+/*
+  Receive and parse signald comms
+*/
 
 events.emitter.on('data', function (data) {
 

@@ -369,15 +369,17 @@ module.exports = {
   }
 }
 
-function writeSocket(command, cb) {
-  // console.log(command)
+// In order to track responses to commands, a UUID is sent along with the request, 
+// and the signal protocol includes this UUID in the response. To track these independently, 
+// the callback is stored in a router and called when responded to.
+const writeSocket = (command, cb) => {
   const id = utils.generateRandomID()
   idRouter.add(id, cb)
   command.id = id
   socketJs.writeSocket(command)
 }
 
-function numbersToFormat(numbers) {
+const numbersToFormat = (numbers) => {
   let format = []
   numbers.forEach((number) => {
     format.push({ number: number })
@@ -385,11 +387,11 @@ function numbersToFormat(numbers) {
   return format
 }
 
-function numberToFormat(number) {
+const numberToFormat = (number) => {
   return { number: number }
 }
 
-async function saveReceipt(caller, receipt) {
+const saveReceipt = async (caller, receipt) => {
   try {
     const content = {
       caller: caller,

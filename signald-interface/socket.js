@@ -8,7 +8,7 @@ let resolver
 module.exports = {
 
   /*
-   * This is where all incoming socket writes come from
+   * Create a socket connection with the unix socket. This is our JS interface with signald
    */
   initSocket: () => {
     return new Promise((resolve) => {
@@ -27,6 +27,7 @@ module.exports = {
         const resp = data.toString().split('\n')
         resp.forEach((item) => {
           if (item.length > 0) {
+            // bulk data handler. this points to receive.js
             events.emitMessage('data', item.toString())
           }
         })
@@ -51,9 +52,8 @@ module.exports = {
   },
 
   /*
-   * Turns on incoming socket reads. Otherwise, the incoming messages and
-   * responses will be queued for the next "receive" (e.g. subscribe) action
-   */
+    Turns on incoming socket reads. Messages received before subscribing are queued and delivered upon subscribe
+  */
   subscribe: () => {
     return new Promise(async (resolve, reject) => {
       await socket.write(JSON.stringify({ "type": "subscribe", "username": process.env.BOT_ACCOUNT }) + "\n", "utf8")
@@ -70,7 +70,7 @@ module.exports = {
   },
 
   /*
-   * This is where all the outgoing signal commands go, except for the ones above.
+     This is where the bulk of the outgoing signal commands go, except for the ones above. Mostly called from skills.js
    */
   writeSocket: (command) => {
     try {

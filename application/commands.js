@@ -168,7 +168,11 @@ const enc = async (args) => {
   }
   if (process.env.USE_ENCRYPTION_PREFIX === 'true') {
     process.env.ENC_PREFIX = args[1]
-    await sendMessage('Encryption key prefix was set')
+    let works = false
+    const search = await pwSkills.itemList()
+    if (search.status === 'ok') works = true
+    if (works) await sendMessage('Encryption key prefix was set')
+    else await sendMessage('Unable to decrypt with encryption key prefix provided')
   } else {
     await sendMessage('The application is not configured to use an encryption key prefix')
   }
