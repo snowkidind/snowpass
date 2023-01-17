@@ -178,6 +178,9 @@ This is the time in minutes to auto backup, which triggers when data mods happen
 
 Time in hours to run a backup regardless of whether or not mods happened
 
+> PRERUN_PAUSE=30
+time in seconds to wait to attempt to connect to socket. If you are having issues on slower systems, you might want to set this higher
+
 > PASSWORD_LENGTH=18
 
 The default length a password generated should be. Passwords are automatically assigned, but can be modified with custom passwords.

@@ -34,7 +34,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
       // 10 second delay to allow signald + java to get started (should be 10 * 1000)
       const sleep = (m) => { return new Promise(r => setTimeout(r, m)) }
-      await sleep(10000)
+      await sleep(Number(process.env.PRERUN_PAUSE) || 10000)
 
       // handle backups
       const backup = async () => {
