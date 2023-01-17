@@ -84,8 +84,10 @@ const { timeFmtDb, dateNowBKK } = dateutils
       signalEvents.emitter.on('socket_connected', async () => {
         console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is connected. pid: " + process.pid)
         ready = true
+        console.log(timeFmtDb(dateNowBKK()) + 'message: Notice: SnowPass was restarted')
         await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
         if (process.env.USE_ENCRYPTION_PREFIX === 'true') {
+          console.log(timeFmtDb(dateNowBKK()) + 'message: Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
           await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
         }
       })
