@@ -14,6 +14,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
   ; (async () => {
     try {
+      console.log(timeFmtDb(dateNowBKK()) + ' Snowpass is starting...')
       // dont run if another process is currently running (protects the db file from unscrupulous double writes)
       const procDir = '/proc'
       const procStore = __dirname + '/data/proc'
