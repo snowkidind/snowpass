@@ -159,7 +159,6 @@ const remove = async (args) => {
   }
 }
 
-
 // /enc <prefix> Set the in memory prefix for encryption
 const enc = async (args) => {
   if (args.length < 2) {

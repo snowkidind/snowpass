@@ -62,7 +62,7 @@ usermod -a -G signald youruser
 groups youruser
 ```
 
-Ensure that youruser is part of the signald group in order to read and write to the signal socket. 
+Ensure that youruser is part of the signald group in order to read and write to the signal socket. You may need to restart your terminal in order to continue.
 
 ## Captcha
 
@@ -126,9 +126,19 @@ IMPORTANT: Finally set dissappearing messages to the message stream with the bot
 ## Install the snowpass application
 ```
 git clone git@github.com:snowkidind/snowpass.git && cd ./snowpass
+
 ```
 
 ## Install node modules
+
+Make sure you install node first
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+# export the printed line or restart the shell here
+nvm install 18.13
+node -v
+```
+
 ```
 npm install
 ```
