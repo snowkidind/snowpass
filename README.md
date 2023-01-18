@@ -145,10 +145,6 @@ thats it should be up and running, that is _should_
 
 # SOFTWARE IS AS IS AND COMES WITH ZERO WARRANTIES ESPECIALLY IF YOU GET HACKED AND LOSE YOUR STUFF - I AM NOT IN ANY WAY RESPONSIBLE NOR HAVE ANY LEGAL OBLIGATIONS.
 
-## NEXT STEPS
-- store pid files to ensure a single process is running
-- look into applying the signal protocol on c for potential embedded approach
-- Check that dissappearing messages are turned on and warn if they arent (signald feature req)
 
 # Operating the bot
 
@@ -188,3 +184,9 @@ This is a summary of the devices it has been tested on
 | Raspberry Pi 4 | 8G / 16g ssd UHS class 1  |  Ubuntu Server 22.1 LTS | Signal slow to respond but somewhat reliable. | Should be more responsive  |
 |   |   |   |   |   |
 
+## NEXT STEPS
+
+- initialize both back and front seeds via signal app
+- change profile pic on runOnce
+- debug pid files to include same pids that are not node
+- Check that dissappearing messages are turned on and warn if they arent
