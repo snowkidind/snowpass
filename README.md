@@ -279,3 +279,14 @@ Remove a company from password tracking entirely - This deletes an entry. Note t
 
 Create a Argon2 encrypted backup copy of the password data - This forces a backup. Note that backups are generated upon actions, but not for every action. Backups are made every process.env.BACKUP_EVERY minutes. This can be set in .env
 > /backup <company>
+
+# TESTING
+
+This is a summary of the devices it has been tested on
+
+| Device  | Specs  | OS  | Performance  | Notes  | 
+|---|---|---|---|---|
+| Digital Ocean Droplet  | 2G/25g/2vCPU  | Ubuntu 22.04  | Good | No performance Issues |
+| Raspberry Pi 4 | 8G / 16g ssd UHS class 1  |  Ubuntu Server 22.1 LTS | Signal slow to respond but somewhat reliable. | Should be more responsive  |
+|   |   |   |   |   |
+

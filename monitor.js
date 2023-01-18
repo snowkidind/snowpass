@@ -14,6 +14,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
   ; (async () => {
     try {
+
       console.log(timeFmtDb(dateNowBKK()) + ' Snowpass is starting...')
       // dont run if another process is currently running (protects the db file from unscrupulous double writes)
       const procDir = '/proc'
@@ -85,11 +86,14 @@ const { timeFmtDb, dateNowBKK } = dateutils
       signalEvents.emitter.on('socket_connected', async () => {
         console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is connected. pid: " + process.pid)
         ready = true
-        console.log(timeFmtDb(dateNowBKK()) + 'message: Notice: SnowPass was restarted')
+
+        // TODO add runonce code here to change bot profile pic 
+
+        console.log(timeFmtDb(dateNowBKK()) + ' message: Notice: SnowPass was restarted')
         await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
         if (process.env.USE_ENCRYPTION_PREFIX === 'true') {
-          console.log(timeFmtDb(dateNowBKK()) + 'message: Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
-          await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
+          console.log(timeFmtDb(dateNowBKK()) + ' message: Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
+          await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: to continue you must set the encryption prefix by issuing the command: /enc <prefix>')
         }
       })
       signalEvents.emitter.on('socket_disconnected', async () => {
