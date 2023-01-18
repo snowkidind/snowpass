@@ -177,7 +177,7 @@ Create a Argon2 encrypted backup copy of the password data - This forces a backu
 
 # TESTING
 
-This is a summary of the devices the software has been tested on
+This is a summary of the devices the software has been tested on. Please make a pull request or send a message if you have a line to add to this table:
 
 | Device  | Specs  | OS  | Performance  | Notes  | 
 |---|---|---|---|---|
