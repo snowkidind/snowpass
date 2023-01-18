@@ -181,9 +181,9 @@ This is a summary of the devices the software has been tested on. Please make a 
 
 | Device  | Specs  | OS  | Performance  | Notes  | 
 |---|---|---|---|---|
-| Digital Ocean Droplet  | 2G/25g/2vCPU  | Ubuntu 22.04  | Good | No performance Issues |
-| Raspberry pi 4 | 8G / 128g SD Extreme XC  | Ubuntu Server 22.1+ | Good | Much more responsive than older microSD, Message latency is about 1 - 1.5 seconds |
-| Raspberry Pi 4 | 8G / 16g ssd UHS class 1  |  Ubuntu Server 22.1 LTS | Signal slow to respond but somewhat reliable. | Should be more responsive, slow to apt as well. Message latency is about 6 - 10 seconds  |
+| Digital Ocean Droplet  | 2G/25g/2vCPU  | Ubuntu 22.04  | Good | No performance Issues, Message latency: 1 - 1.5 seconds |
+| Raspberry pi 4 | 8G / 128g SD Extreme XC  | Ubuntu Server 22.1+ | Good | Much more responsive than older microSD, Message latency: 1 - 1.5 seconds |
+| Raspberry Pi 4 | 8G / 16g ssd UHS class 1  |  Ubuntu Server 22.1 LTS | Signal slow to respond but somewhat reliable. | Should be more responsive, slow to apt as well. Message latency: about 6 - 10 seconds  |
 
 
 ## NEXT STEPS
