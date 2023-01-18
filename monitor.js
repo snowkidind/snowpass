@@ -15,7 +15,13 @@ const { timeFmtDb, dateNowBKK } = dateutils
   ; (async () => {
     try {
 
-      console.log(timeFmtDb(dateNowBKK()) + ' Snowpass is starting...')
+      const v = process.version.slice(1, 3)
+      if (Number(v) < 19) {
+        console.log('This script was written in Node 19.3.0')
+        process.exit(1)
+      }
+
+      console.log(timeFmtDb(dateNowBKK()) + ' Snowpass is starting and will sleep for ' + process.env.PRERUN_PAUSE + ' seconds to allow system config')
       // dont run if another process is currently running (protects the db file from unscrupulous double writes)
       const procDir = '/proc'
       const procStore = __dirname + '/data/proc'
@@ -30,8 +36,9 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
       // dont run if the password file is not initialized
       if (! await pwSkills.dataStoreExists()) {
-        console.log(timeFmtDb(dateNowBKK()) + ' Could not find a data store. Please run the command \"node cli\" from the application directory to continue')
-        process.exit(1)
+        console.log(timeFmtDb(dateNowBKK()) + ' Could not find a data store. Interactive mode enabled\n\n')
+        require('./cli/index.js')
+        return
       }
 
       // 10 second delay to allow signald + java to get started (should be 10 * 1000)
@@ -92,7 +99,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
         console.log(timeFmtDb(dateNowBKK()) + ' message: Notice: SnowPass was restarted')
         await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
         if (process.env.USE_ENCRYPTION_PREFIX === 'true') {
-          console.log(timeFmtDb(dateNowBKK()) + ' message: Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
+          console.log(timeFmtDb(dateNowBKK()) + ' message: Notice: to continue you must set the encryption prefix by issuing the command: /enc <prefix>')
           await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: to continue you must set the encryption prefix by issuing the command: /enc <prefix>')
         }
       })

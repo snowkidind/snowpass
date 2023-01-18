@@ -31,7 +31,7 @@ events.emitter.on('message', async (message) => {
     if (process.env.USE_ENCRYPTION_PREFIX === 'true' && 
        typeof process.env.ENC_PREFIX === 'undefined' &&
        q !== '/enc') {
-      await sendMessage('ERROR: Notice: to continue you muse set the encryption prefix by issuing the command: /enc <prefix>')
+      await sendMessage('ERROR: Notice: to continue you must set the encryption prefix by issuing the command: /enc <prefix>')
       return
     }
     if (q.startsWith('/')) {
