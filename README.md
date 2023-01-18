@@ -137,6 +137,7 @@ cp ecosystem.config.js.example ecosystem.config.js
 pico ecosystem.config.js # modify script field to reflect the fullpath to the monitor.js file
 pm2 start ecosystem.config.js
 pm2 startup # displays a link to copy paste to get the monitor to persist over system restarts
+pm2 save
 pm2 status
 pm2 logs
 ```
@@ -176,13 +177,13 @@ Create a Argon2 encrypted backup copy of the password data - This forces a backu
 
 # TESTING
 
-This is a summary of the devices it has been tested on
+This is a summary of the devices the software has been tested on
 
 | Device  | Specs  | OS  | Performance  | Notes  | 
 |---|---|---|---|---|
 | Digital Ocean Droplet  | 2G/25g/2vCPU  | Ubuntu 22.04  | Good | No performance Issues |
-| Raspberry Pi 4 | 8G / 16g ssd UHS class 1  |  Ubuntu Server 22.1 LTS | Signal slow to respond but somewhat reliable. | Should be more responsive  |
-|   |   |   |   |   |
+| Raspberry Pi 4 | 8G / 16g ssd UHS class 1  |  Ubuntu Server 22.1 LTS | Signal slow to respond but somewhat reliable. | Should be more responsive, slow to apt as well. Message latency is about 6 - 10 seconds  |
+| Raspberry pi 4 | 8G / 128g SD Extreme XC  | Ubuntu Server 22.1+ |  | Much more responsive than older microSD, Message latency is about 1 - 1.5 seconds |
 
 ## NEXT STEPS
 
