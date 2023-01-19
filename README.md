@@ -28,34 +28,34 @@ node cli
 
 Generate local encryption key and install
 
-In order to keep encrypted backups, it isnecessary to have an encryption key.
-The system uses a split encryption key, halfstored on the device, the other
+In order to keep encrypted backups, it is necessary to have an encryption key.
+The system uses a split encryption key, half stored on the device, the other
 injected into ram via the signal interface.This command will automatically
 generate the backside key and insert it intothe .env file
-To use an existing key, modify the .env filewith the key.
+To use an existing key, modify the .env file with the key.
 
 `k`    
 
 Set remote encryption key
 
-This allows you use the "import passwords" commandbelow using the split key method.
-This command will inject the remote key into thecurrent process without writing
-it to disk. To create the password file's encryptionkey, these keys will be concatenated.
+This allows you use the "import passwords" command below using the split key method.
+This command will inject the remote key into the current process without writing
+it to disk. To create the password file's encryption key, these keys will be concatenated.
 
 `ir`    
 
 Import raw passwords
 
-This allows you to bring passwords in using the splitkey method. This command will
-read a JSON file and convert the data into a encryptedfile. You should remove the JSON file
+This allows you to bring passwords in using the split key method. This command will
+read a JSON file and convert the data into a encrypted file. You should remove the JSON file
 after performing this operation.
 
 `ie`   
 
 Import encrypted data store
 
-This allows you to import passwords from a previousinstallation. You will need both
-local and remote encryption keys to continue (and work)in order to complete this command.
+This allows you to import passwords from a previous installation. You will need both
+local and remote encryption keys to continue (and work) in order to complete this command.
 
 `e`
 
@@ -137,7 +137,7 @@ Be sure to set the appropriate things there:
 
 > ENCRYPTION_KEY=yoursupersecurekeyhere 
 
-Make this a nice strong password-like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created. This will be hashed with Argon2 and then used as the key to your data file, which is encrypted with AES-CBC
+There is a function in interactive mode which allows you to generate this. Make this a nice strong password-like field. it is the key to unlocking your password file. It is not intended to be changed once the datastore is created. This will be hashed with Argon2 and then used as the key to your data file, which is encrypted with AES-CBC
 
 > USE_ENCRYPTION_PREFIX=true
 

@@ -98,7 +98,6 @@ const { timeFmtDb, dateNowBKK } = dateutils
         console.log(timeFmtDb(dateNowBKK()) + " NOTICE: the socket is connected. pid: " + process.pid)
         ready = true
 
-        // TODO add runonce code here to change bot profile pic 
         const exists = await fs.existsSync(__dirname + '/data/avatar')
         if (!exists) {
           console.log('Addding avatar Image to profile...')
