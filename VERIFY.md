@@ -2,9 +2,9 @@
 
 Signal is a end to end encrypted messenger application. Whatsapp has integrated it to provide strong encryption in their application. Signal is a cross platform application available on iOS, Android, OSX, Windows etc. Behind signal is the protocol which allows bots to connect to it, called the signal protocol. To use the signal protocol, a machine must integrate the libraries that allow for this connection. 
 
-The bot uses the [signald](https://signald.org/) implementation to achieve programattic access to the signal protocol. It runs on Java, there are many ways to install it, and it is usually pretty tedious getting it going. Once its up, it tends to be pretty solid however and the daemon persists through restarts and works. Signald is [open source](https://gitlab.com/signald/signald)
+The bot uses the [signald](https://signald.org/) implementation to achieve programattic access to the signal protocol. It runs on Java, there are many ways to install it, and it is usually pretty tedious getting it up and going. Once it's up, it tends to be pretty solid however and the daemon persists through restarts and works. Signald is [open source](https://gitlab.com/signald/signald)
 
-> Known issue: There is a delay timer in the snowpass application that pauses startup when the computer starts because sometimes it doesnt connect when PM2 starts suddenly after signalD
+> Known issue: There is a delay timer in the snowpass application that pauses startup when the computer starts because sometimes it doesnt connect when PM2 starts suddenly after signalD finishes starting
 
 To use this application, first familiarize yourself with the signal client, chat with some friends, I highly recommend using a second device where you can wipe the signal application completely for configuring signal bots. Install signal on your desktop and see how the desktop and mobile apps interact with each other. Find the dissappearing message controls and see how they work. Install some [Stickers](https://signalstickers.com/) for the client so it isnt so boring.
 
@@ -15,9 +15,9 @@ To use this application, first familiarize yourself with the signal client, chat
 Here are some tips on getting the signald application working on your machine.
 
 The steps involved in this are as follows
-- Get a dedicated box
+- Get a dedicated machine
 - Get an alternate Twilio phone number (Optional)
-- Install signald on the box and get it working
+- Install signald on the machine and get it working
 - The captcha
 
 ## Get a dedicated machine
@@ -45,7 +45,7 @@ Here are the instructions to set up call forwarding from the twilio site:
 
 Do not proceed until you are able to receive a phone call through the twilio interface. This will greatly improve the experience going forward. (or proceed weary-eyed, ymmv)
 
-## Install signald on the box and get it working
+## Install signald on the machine and get it working
 Instructions to install signald are at https://signald.org/articles/install/debian/
 The biggest issue (save from the verify function which is its own beast) with the signal installation is that sometimes the signing key doesnt allow proper downloads from updates.signald.org
 When following the install instructions above, if you have signing key issues, change the source list url in /etc/apt/sources.list.d/signald.list to:
