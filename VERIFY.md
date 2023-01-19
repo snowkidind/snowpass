@@ -2,12 +2,13 @@
 
 Signal is a end to end encrypted messenger application. Whatsapp has integrated it to provide strong encryption in their application. Signal is a cross platform application available on iOS, Android, OSX, Windows etc. Behind signal is the protocol which allows bots to connect to it, called the signal protocol. To use the signal protocol, a machine must integrate the libraries that allow for this connection. 
 
-The bot uses the signald implementation to achieve programattic access to the signal protocol. It runs on Java, there are many ways to install it, and it is usually pretty tedious getting it going. Once its up, it tends to be pretty solid however and the daemon persists through restarts and works. 
+The bot uses the [signald](https://signald.org/) implementation to achieve programattic access to the signal protocol. It runs on Java, there are many ways to install it, and it is usually pretty tedious getting it going. Once its up, it tends to be pretty solid however and the daemon persists through restarts and works. Signald is [open source](https://gitlab.com/signald/signald)
 
->Known issue: There is a delay timer in the snowpass application that pauses startup when the computer starts because sometimes it doesnt connect when PM2 starts suddenly after signalD
+> Known issue: There is a delay timer in the snowpass application that pauses startup when the computer starts because sometimes it doesnt connect when PM2 starts suddenly after signalD
 
-## some words
-To use this application, first familiarize yourself with the signal client, chat with some friends, I highly recommend using a second device where you can wipe the signal application completely for configuring signal bots. Install signal on your desktop and see how the desktop and mobile apps interact with each other. The link method is much less painful than trying to chase down captchas via captchas.signald.org. Install some [Stickers](https://signalstickers.com/) for the client so it isnt so boring.
+To use this application, first familiarize yourself with the signal client, chat with some friends, I highly recommend using a second device where you can wipe the signal application completely for configuring signal bots. Install signal on your desktop and see how the desktop and mobile apps interact with each other. Find the dissappearing message controls and see how they work. Install some [Stickers](https://signalstickers.com/) for the client so it isnt so boring.
+
+>The link method is much less painful than trying to chase down captchas via captchas.signald.org. 
 
 # Verifying Singal
 
@@ -19,7 +20,7 @@ The steps involved in this are as follows
 - Install signald on the box and get it working
 - The captcha
 
-## Get a box
+## Get a dedicated machine
 
 Get a raspberry pi or similar ubuntu device rolling. You can test this with using a cloud instance, but be warned, there is a known issue synchronizing signal with anything on a digital ocean domain. With that in mind, the process here will be described to that spec.
 
