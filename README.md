@@ -10,6 +10,77 @@ The signald program keeps a socket open with the signal protocol and messages ar
 
 The password file itself is encrypted using Argon2. 
 
+# Configuring the bot for the first time
+
+Before operating the bot, you will need to set the encryption key appropriately and initialize a datastore. There is an interactive mode which allows the configuration. To access interactive mode, run node cli from the root directory.
+
+## Interactive mode commands:
+
+`g`
+
+Generate local encryption key and install
+In order to keep encrypted backups, it isnecessary to have an encryption key.
+The system uses a split encryption key, halfstored on the device, the other
+injected into ram via the signal interface.This command will automatically
+generate the backside key and insert it intothe .env file
+To use an existing key, modify the .env filewith the key.
+
+`k`    
+
+Set remote encryption key
+This allows you use the "import passwords" commandbelow using the split key method.
+This command will inject the remote key into thecurrent process without writing
+it to disk. To create the password file's encryptionkey, these keys will be concatenated.
+
+`ir`    
+
+Import raw passwords
+This allows you to bring passwords in using the splitkey method. This command will
+read a JSON file and convert the data into a encryptedfile. You should remove the JSON file
+after performing this operation.
+
+`ie`   
+
+Import encrypted data store
+This allows you to import passwords from a previousinstallation. You will need both
+local and remote encryption keys to continue (and work)in order to complete this command.
+
+`e`
+
+Initialize with no passwords
+This creates a new encrypted data store with no entries.
+
+# Operating the bot
+
+If the bot is properly configured, you should be able to do almost everything through the signal interface. Just hit / for the menu:
+
+Passwords are automatically assigned on new entries. You can then change them with a custom password or update them with a new auto assigned password.
+
+Create a new entry, with an auto assigned password - this will generate a new entry with the specified information. The program will assign a new password for it and return the password. You can then copy the password from signal and update the password on the website with it.
+> /new <entry> <userid> <note>
+
+List entries - This displays a list of all the entries by name. For details about an entry just send a signal message with the name of the entry
+> /ls
+
+Append note information for specified entry - This adds a line to the note field of a given entry, you can add several notes to a entry.
+> /note <entry> <note>
+
+Clear note information for specified entry - this removes all notes associated with an entry. 
+> /noteclear <entry>
+
+Change item to user defined password - If you are not satisfied with the password given, or wish to assign your own password, this allows for that functionality. It overwrites the currently assigned password.
+> /change <entry> <newPassword>
+
+Update an entry with a new auto assigned password - When it is time to update passwords, this will replace the old password with a newly generated one.
+> /update <entry>
+
+Remove an entry from password tracking entirely - This deletes an entry. Note theres no undo here.
+> /rm <entry> <password>
+
+Create a Argon2 encrypted backup copy of the password data - This forces a backup. Note that backups are generated upon actions, but not for every action. Backups are made every process.env.BACKUP_EVERY minutes. This can be set in .env
+> /backup <entry>
+
+
 # Making it work
 
 <table><tr><td>NOTE: There is no point in proceeding with the snowpass installation until you have a working copy of the signald application up and communicating with your regular signal chat client. Please refer to VERIFY.md for these instructions before proceeding with the install here.</td></tr></table>
@@ -148,35 +219,6 @@ pm2 logs
 thats it should be up and running, that is _should_
 
 # SOFTWARE IS AS IS AND COMES WITH ZERO WARRANTIES ESPECIALLY IF YOU GET HACKED AND LOSE YOUR STUFF - I AM NOT IN ANY WAY RESPONSIBLE NOR HAVE ANY LEGAL OBLIGATIONS.
-
-
-# Operating the bot
-
-If the bot is properly configured, you should be able to do almost everything through the signal interface. Just hit / for the menu:
-
-Create a new entry, with an auto assigned password - this will generate a new entry with the specified information. The program will assign a new password for it and return the password. You can then copy the password from signal and update the password on the website with it.
-> /new <company> <userid> <note>
-
-List entries - This displays a list of all the entries by name. For details about an entry just send a signal message with the name of the entry
-> /ls
-
-Append note information for specified entry - This adds a line to the note field of a given entry, you can add several notes to a entry.
-> /note <company> <note>
-
-Clear note information for specified company - this removes all notes associated with an entry. 
-> /noteclear <company>
-
-Change item to user defined password - If you are not satisfied with the password given, or wish to assign your own password, this allows for that functionality. It overwrites the currently assigned password.
-> /change <company> <newPassword>
-
-Update a company with a new auto assigned password - When it is time to update passwords, this will replace the old password with a newly generated one.
-> /update <company>
-
-Remove a company from password tracking entirely - This deletes an entry. Note theres no undo here.
-> /rm <company> <password>
-
-Create a Argon2 encrypted backup copy of the password data - This forces a backup. Note that backups are generated upon actions, but not for every action. Backups are made every process.env.BACKUP_EVERY minutes. This can be set in .env
-> /backup <company>
 
 # TESTING
 
