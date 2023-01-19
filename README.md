@@ -12,10 +12,10 @@ The password file itself is encrypted using Argon2.
 
 # Making it work
 
-<table><tr><td>NOTE: There is no point in proceeding with the snowpass installation until you have a working copy of the signald application up and communicating with your regular signal chat client. Please refer to [VERIFY.md](./VERIFY.md) for these instructions before proceeding with the install here.</td></tr></table>
+<table><tr><td>NOTE: There is no point in proceeding with the snowpass installation until you have a working copy of the signald application up and communicating with your regular signal chat client. Please refer to VERIFY.md for these instructions before proceeding with the install here.</td></tr></table>
 
 The steps involved in this are as follows
-- get signald working on your machine
+- [get signald working on your machine](./VERIFY.md)
 - Install the snowpass application
 - Install node modules
 - Configure the .env file
