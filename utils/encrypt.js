@@ -1,11 +1,7 @@
 
 const crypto = require('crypto')
 const argon2 = require('argon2')
-
-const env = require('node-env-file')
-env(__dirname + '/../.env')
 const fs = require('fs')
-const dataStore = __dirname + '/../data/data.enc'
 
 module.exports = {
 

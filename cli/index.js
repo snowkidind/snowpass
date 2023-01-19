@@ -188,9 +188,7 @@ const mainMenu = async () => {
         console.log(items.error)
       }
     }
-    // 3. test that the existing keys work with the encrypted file
     await getAnswer(rl, "OK. (any)", mainMenu)
-
   }
 
   if (query === "e") {
