@@ -231,6 +231,19 @@ pm2 logs
 
 thats it should be up and running, that is _should_
 
+# On Security
+
+In order to get some basic security issues out of the way, here are some Security tips
+- Change your password from default raspberrry pi settings.
+- Update and upgrade `sudo apt update sudo apt full-upgrade`
+- Use SSH key authentication
+- 2FA your SSH
+- Use UFW on the pi to set up a firewall `sudo ufw limit 22/tcp`
+- Dont use your password machine for anything else, especially websites connected to the outside world.
+- be sure to set your dissappearing messages to the bot in your signal app
+- double check that any plain text files with passwords have been deleted properly
+- clear system logs (`pm2 logs` for location)
+
 # SOFTWARE IS AS IS AND COMES WITH ZERO WARRANTIES ESPECIALLY IF YOU GET HACKED AND LOSE YOUR STUFF - I AM NOT IN ANY WAY RESPONSIBLE NOR HAVE ANY LEGAL OBLIGATIONS.
 
 # TESTING
