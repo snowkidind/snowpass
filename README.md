@@ -1,8 +1,8 @@
 # Snowpass
 
-![info graphic](resources/basic.1800.1200.png)
-
 This is a password management system written in NodeJS designed with the purpose of self custody of passwords, which allows retrieval on remote devices using the Signal application.
+
+![info graphic](resources/basic.1800.1200.png)
 
 The setup uses a headless ubuntu system, that allows access via ssh on a local network. It is intended to be implemented as a dedicated device.
 
@@ -12,9 +12,10 @@ The password file itself is encrypted using Argon2.
 
 # Making it work
 
-NOTE: There is no point in proceeding with the snowpass installation until you have a working copy of the signald application up and communicating with your regular signal chat client. Please refer to [VERIFY.md](./VERIFY.md) for these instructions before proceeding with the install here.
+<table><tr><td>NOTE: There is no point in proceeding with the snowpass installation until you have a working copy of the signald application up and communicating with your regular signal chat client. Please refer to [VERIFY.md](./VERIFY.md) for these instructions before proceeding with the install here.</td></tr></table>
 
 The steps involved in this are as follows
+- get signald working on your machine
 - Install the snowpass application
 - Install node modules
 - Configure the .env file
