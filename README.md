@@ -27,6 +27,7 @@ node cli
 `g`
 
 Generate local encryption key and install
+
 In order to keep encrypted backups, it isnecessary to have an encryption key.
 The system uses a split encryption key, halfstored on the device, the other
 injected into ram via the signal interface.This command will automatically
@@ -36,6 +37,7 @@ To use an existing key, modify the .env filewith the key.
 `k`    
 
 Set remote encryption key
+
 This allows you use the "import passwords" commandbelow using the split key method.
 This command will inject the remote key into thecurrent process without writing
 it to disk. To create the password file's encryptionkey, these keys will be concatenated.
@@ -43,6 +45,7 @@ it to disk. To create the password file's encryptionkey, these keys will be conc
 `ir`    
 
 Import raw passwords
+
 This allows you to bring passwords in using the splitkey method. This command will
 read a JSON file and convert the data into a encryptedfile. You should remove the JSON file
 after performing this operation.
@@ -50,12 +53,14 @@ after performing this operation.
 `ie`   
 
 Import encrypted data store
+
 This allows you to import passwords from a previousinstallation. You will need both
 local and remote encryption keys to continue (and work)in order to complete this command.
 
 `e`
 
 Initialize with no passwords
+
 This creates a new encrypted data store with no entries.
 
 # Operating the bot
