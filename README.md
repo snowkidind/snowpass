@@ -120,7 +120,7 @@ Make sure you install node first
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # export the printed line or restart the shell here
-nvm install 18.13
+nvm install 19.3
 node -v
 ```
 
