@@ -21,15 +21,18 @@ const { timeFmtDb, dateNowBKK } = dateutils
         process.exit(1)
       }
 
-      console.log(timeFmtDb(dateNowBKK()) + ' Snowpass is starting and will sleep for ' + process.env.PRERUN_PAUSE + ' seconds to allow system config')
       // dont run if another process is currently running (protects the db file from unscrupulous double writes)
       const procDir = '/proc'
       const procStore = __dirname + '/data/proc'
       if (fs.existsSync(procStore)) {
         const proc = await fs.readFileSync(procStore)
         if (fs.existsSync(procDir + '/' + proc)) {
-          console.log(timeFmtDb(dateNowBKK()) + ' Error: Only one process may run at a time! Pid: ' + proc + ' is still running. Exiting...')
-          process.exit(1)
+          const procInfo = await fs.readFileSync(procDir + '/' + proc + '/status', 'utf8')
+          const guts = procInfo.split('\n')
+          if (guts[0].includes('node')) {
+            console.log(timeFmtDb(dateNowBKK()) + ' Error: Only one process may run at a time! Pid: ' + proc + ' is still running. Exiting...')
+            process.exit(1)
+          }
         }
       }
       await fs.writeFileSync(procStore, String(process.pid))
@@ -40,7 +43,8 @@ const { timeFmtDb, dateNowBKK } = dateutils
         require('./cli/index.js')
         return
       }
-
+      
+      console.log(timeFmtDb(dateNowBKK()) + ' Snowpass is starting and will sleep for ' + process.env.PRERUN_PAUSE + ' seconds to allow system config')
       // 10 second delay to allow signald + java to get started (should be 10 * 1000)
       const sleep = (m) => { return new Promise(r => setTimeout(r, m)) }
       await sleep(Number(process.env.PRERUN_PAUSE) * 1000 || 10000)
@@ -95,6 +99,12 @@ const { timeFmtDb, dateNowBKK } = dateutils
         ready = true
 
         // TODO add runonce code here to change bot profile pic 
+        const exists = await fs.existsSync(__dirname + '/data/avatar')
+        if (!exists) {
+          console.log('Addding avatar Image to profile...')
+          await signal.skills.updateBotAvatar(__dirname + '/resources/snowpass.png', 'Snow Pass')
+          await fs.writeFileSync(__dirname + '/data/avatar', 'added')
+        }
 
         console.log(timeFmtDb(dateNowBKK()) + ' message: Notice: SnowPass was restarted')
         await signal.skills.sendMessage(process.env.LINKED_ACCOUNT, 'Notice: SnowPass was restarted.')
