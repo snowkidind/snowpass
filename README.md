@@ -1,5 +1,7 @@
 # Snowpass
 
+![info graphic](resources/basic.1800.1200.png)
+
 This is a password management system written in NodeJS designed with the purpose of self custody of passwords, which allows retrieval on remote devices using the Signal application.
 
 The setup uses a headless ubuntu system, that allows access via ssh on a local network. It is intended to be implemented as a dedicated device.
