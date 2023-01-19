@@ -10,6 +10,16 @@ To use this application, first familiarize yourself with the signal client, chat
 
 >The link method is much less painful than trying to chase down captchas via captchas.signald.org. 
 
+# Raspberry pi
+
+In order to get some basic security issues out of the way
+- Change your password from default raspberrry pi settings.
+- Update and upgrade `sudo apt update sudo apt full-upgrade`
+- Use SSH key authentication
+- 2FA your SSH
+- Use UFW on the pi to set up a firewall `sudo ufw limit 22/tcp`
+- Dont use the pi for anything else, especially websites connected to the outside world.
+
 # Verifying Singal
 
 Here are some tips on getting the signald application working on your machine.
