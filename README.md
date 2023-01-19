@@ -14,6 +14,14 @@ The password file itself is encrypted using Argon2.
 
 Before operating the bot, you will need to set the encryption key appropriately and initialize a datastore. There is an interactive mode which allows the configuration. To access interactive mode, run node cli from the root directory.
 
+```
+node cli
+```
+
+- First, generate a encryption key
+- Then inject the remote key into memory
+- Then create your archive
+
 ## Interactive mode commands:
 
 `g`
