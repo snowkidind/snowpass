@@ -235,10 +235,10 @@ module.exports = {
     else if (cmd === '/backup') await backup()
     else if (cmd === '/enc') await enc(cmdArgs)
     else await sendMessage(menu())
-    if (cmd !== '/enc') {
-      console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: ' + cmdArgs.join(' '))
+    if (cmd === '/enc' || cmd === '/change' || cmd === '/rm' || cmd === '/update') {
+      console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: ' + cmd + ' *****')
     } else {
-      console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: /enc *****')
+      console.log(timeFmtDb(dateNowBKK()) + ' A command was issued: ' + cmdArgs.join(' '))
     }
   }
 }
