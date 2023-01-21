@@ -65,7 +65,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
       // requests to detect server down condition
       const checkIn = async () => {
         if (typeof process.env.CHECK_IN_URL !== 'undefined') {
-          setTimeout(backup, process.env.CHECK_IN_MIN * 60 * 1000)
+          setTimeout(checkIn, process.env.CHECK_IN_MIN * 60 * 1000)
           await axios.get(process.env.CHECK_IN_URL)
             .catch((error) => {
               if (error.response) console.log(error.response.data)
