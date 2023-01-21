@@ -2,7 +2,7 @@
 
 This is a password management system written in NodeJS designed with the purpose of self custody of passwords, which allows retrieval on remote devices using the Signal application.
 
-![Video introduction / live demo](https://drive.google.com/file/d/16ylgFhDaWc00sBvbN2em9ZDIZv4ytUjR/view?usp=share_link)
+[Video introduction / live demo](https://drive.google.com/file/d/16ylgFhDaWc00sBvbN2em9ZDIZv4ytUjR/view?usp=share_link)
 
 ![info graphic](resources/basic.1800.1200.png)
 
