@@ -56,7 +56,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
       }
       backup()
       const cleanupBackups = async () => {
-        setTimeout(backup, 24 * 60 * 60 * 1000) // every day clean unnecessary backup files.
+        setTimeout(cleanupBackups, 24 * 60 * 60 * 1000) // every day clean unnecessary backup files.
         await pwSkills._backupSchedule()
       }
       cleanupBackups()
