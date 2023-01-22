@@ -73,7 +73,7 @@ npm install pm2 -g
 cp ecosystem.config.js.example ecosystem.config.js
 pico ecosystem.config.js # update to reflect your user
 pm2 start ecosystem.config.js
-pm2 startup
+pm2 startup #follow instructions printed at the prompt
 pm2 save
 
 sudo shutdown -r now
