@@ -104,6 +104,8 @@ Create a Argon2 encrypted backup copy of the password data - This forces a backu
 
 <table><tr><td>NOTE: There is no point in proceeding with the snowpass installation until you have a working copy of the signald application up and communicating with your regular signal chat client. Please refer to VERIFY.md for these instructions before proceeding with the install here.</td></tr></table>
 
+There is a play-by-play file of sequential commands and things to do to get up and running in rasbiBuild.sh 
+
 The steps involved in this are as follows
 - [get signald working on your machine](./VERIFY.md)
 - Install the snowpass application
