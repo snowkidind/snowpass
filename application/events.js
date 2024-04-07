@@ -56,10 +56,11 @@ events.emitter.on('message', async (message) => {
       return
     }
     for (let i = 0; i < item.data.length; i++) {
-      message1 = item.data[i].name + '\n'
+      message1 = item.data[i].name + '\n' + item.data[i].user + '\n' + item.data[i].note
       await sendMessage(message1)
       message2 = item.data[i].password
       await sendMessage(message2)
+      console.log(timeFmtDb(dateNowBKK()) + ' A password was served: ' + item.data[i].name + ' ' + message.source.number)
     }
   } catch (error) {
     console.log(error)
