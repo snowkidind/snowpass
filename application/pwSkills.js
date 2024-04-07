@@ -286,7 +286,9 @@ const backupSchedule = async () => {
   for (let i = 0; i < plus24h.length; i++) {
     const thisDate = timeFmtDb(_toEpoch(plus24h[i].replace('.enc.bak', '')))
     const day = Number(thisDate.substr(8, 2))
-    days[day].push(plus24h[i])
+    if (days[day]) {
+      days[day].push(plus24h[i])
+    }
   }
   for (let i = 0; i < days.length; i++) {
     if (days[i].length > 1) {

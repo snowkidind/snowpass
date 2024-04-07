@@ -55,11 +55,12 @@ events.emitter.on('message', async (message) => {
       console.log(timeFmtDb(dateNowBKK()) + ' A password was served: ' + item.data[0].name + ' ' + message.source.number)
       return
     }
-    let message1 = 'More than one result was found:\n'
     for (let i = 0; i < item.data.length; i++) {
-      message1 += item.data[i].name + '\n'
+      message1 = item.data[i].name + '\n'
+      await sendMessage(message1)
+      message2 = item.data[i].password
+      await sendMessage(message2)
     }
-    await sendMessage(message1)
   } catch (error) {
     console.log(error)
     await sendMessage('An Application error occurred receiving a message')
