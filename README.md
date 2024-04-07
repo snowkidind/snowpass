@@ -1,5 +1,7 @@
 # Snowpass
 
+## Self custodial password manager written in pure JS 
+
 If you are sick of using third parties for password management this may be a solution that is right for you. Signal messenger is an end to end strongly encrypted messenger application. Its been integrated by large platforms like whatsapp and telegram in order to give its users a secure experience. SnowPass leans on this technology to deliver user credentials to any device across platforms. The software can be installed on any personal device like a raspberry pi, an odroid or your laptop to create a safe zone for your passwords, free from dependence on third parties. 
 
 After setting the system up, you interact with it directly on a chat message on the signal messenger app. You can make new entries, add notes to existing entries, change and update passwords and more. On the backend the password file is encrypted in a safe manner, using the latest strong encryption methods for safe storage. The disappearing message feature of signal messenger automatically removes password requests thereby eliminating any correspondence with the app after a set period of time.

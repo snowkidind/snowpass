@@ -51,7 +51,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
 
       // handle backups
       const backup = async () => {
-        setTimeout(backup, process.env.BACKUP_CRON * 60 * 60 * 1000)
+        setTimeout(backup, (Number(process.env.BACKUP_CRON) || 24) * 60 * 60 * 1000)
         await pwSkills.manualBackup()
       }
       backup()
@@ -65,7 +65,7 @@ const { timeFmtDb, dateNowBKK } = dateutils
       // requests to detect server down condition
       const checkIn = async () => {
         if (typeof process.env.CHECK_IN_URL !== 'undefined') {
-          setTimeout(checkIn, process.env.CHECK_IN_MIN * 60 * 1000)
+          setTimeout(checkIn, Number(process.env.CHECK_IN_MIN) * 60 * 1000)
           await axios.get(process.env.CHECK_IN_URL)
             .catch((error) => {
               if (error.response) console.log(error.response.data)
